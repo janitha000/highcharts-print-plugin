@@ -111,11 +111,11 @@ $(function () {
         $('#content1').append('<div id="container'+j+'"'+' style="height: 400; width:400;position:relative" ></div>');
         pageManagement("#container" + j);
         $("#container" + j ).append('<div id="containerChart'+j+'"'+' class="charts" style="height: 400; width:400;position:relative" ></div>');
-        initializeChart("#container" + j );
+        initializeChart("#containerChart"+j );
         $("#container" + j ).append('<div id = "chartData'+j+'"'+' class = "chartData"><h1>dsfasfagsgssdf<h1></div>');
         //initilizeArray("#container" + j );
         makeDraggeble("#container" + j );
-        createContextMenu("#container" + j );
+        createContextMenu("#containerChart"+j  );
         
         
        
@@ -225,7 +225,7 @@ function legend(container){
 
     function modifyLegend(){
         highchartLegend(container);
-        appendChartData(container)
+        
     }
 };
 
@@ -439,6 +439,7 @@ $(container).contextmenu({
  }
 
 function initializeChart(container){
+    console.log(container)
     var oriChart = $(container).highcharts( 
         {
     //$('#container').highcharts({

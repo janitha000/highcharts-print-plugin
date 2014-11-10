@@ -23,7 +23,7 @@ html{
 }
 
 .content{
-  border: solid;
+  border: ridge;
 }
 
 .chartData{

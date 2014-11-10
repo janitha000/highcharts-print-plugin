@@ -85,7 +85,7 @@
 
 $(function () {
     var first = false;
-    var currentPagePosition = 1;
+    var i = 1;
     var orientation = 'P';
     var startingPosition = 0;
     
@@ -141,7 +141,7 @@ $(function () {
 
     ];
 
-     currentPagePosition = 1;
+     i = 1;
      PNo=2;
      LNo=2;
       $( "#containment" ).empty();
@@ -155,7 +155,7 @@ $(function () {
     
 
     function appendChartData(container){
-        $(container).append('<div id = "chartData" ><h2>kasfjaksjfaksf</h2></div>');
+        $(container).append();
     }
 
     //MAKE CHARTS DRAGGEBLE
@@ -181,7 +181,7 @@ $(function () {
             
                 $( ".content" ).height(pageHeight);
                 $( ".content" ).width(pageWidth);
-                $( "#containment" ).height(pageHeight*currentPagePosition-1);
+                $( "#containment" ).height(pageHeight*i-1);
                 $( "#containment" ).width(pageWidth);
                 orientation = 'P'; 
                  reinitiate(); 
@@ -197,7 +197,7 @@ $(function () {
             $( "#containment" ).width(pageHeight);
             orientation = 'L';
             reinitiate(); 
-            currentPagePosition=1;
+            i=1;
             initialization();
             
             
@@ -225,7 +225,6 @@ function legend(container){
 
     function modifyLegend(){
         highchartLegend(container);
-        appendChartData(container)
     }
 };
 
@@ -352,7 +351,7 @@ $(container).contextmenu({
     var b = document.querySelector(container).clientHeight;
     var position = (document.querySelector(container).offsetTop) + (document.querySelector(container).clientHeight);
          var tmpheight;
-        // console.log("currentPagePosition is before  " +currentPagePosition )
+        // console.log("i is before  " +i )
          
         if(orientation == 'L'){
             tmpheight = pageHeight;
@@ -369,36 +368,36 @@ $(container).contextmenu({
 
             switch(orientation){
                 case 'P' :
-                    if( position >= pageHeight * currentPagePosition){
-                        currentPagePosition= currentPagePosition+1;
+                    if( position >= pageHeight * i){
+                        i= i+1;
                         newPage('P',container);
-                         $('#containment').css('height', pageHeight * currentPagePosition);
+                         $('#containment').css('height', pageHeight * i);
                         //makeDraggeble(container);
                          $(container).draggable({ containment: '#containment'});
                         
                     }
 
-                    // else if(position< pageHeight * (currentPagePosition-1)){
-                    //     currentPagePosition= currentPagePosition-1;
+                    // else if(position< pageHeight * (i-1)){
+                    //     i= i-1;
                     //     if(removePage()){
-                    //     $('#containment').css('height', pageHeight * currentPagePosition);
+                    //     $('#containment').css('height', pageHeight * i);
                     //     $(container).draggable({ containment: '#containment'});
                     // }
                     // }
                     break;
                 case 'L':
-                    if( position >= pageHeight * currentPagePosition){
-                        currentPagePosition= currentPagePosition+1;
+                    if( position >= pageHeight * i){
+                        i= i+1;
                         newPage('L',container);
-                        $('#containment').css('height', pageHeight * currentPagePosition);
+                        $('#containment').css('height', pageHeight * i);
                         
                         $(container).draggable({ containment: '#containment'});
                     }
 
-                    // else if(position < pageWidth * (currentPagePosition-1)){
-                    //     currentPagePosition= currentPagePosition-1;
+                    // else if(position < pageWidth * (i-1)){
+                    //     i= i-1;
                     //     if(removePage()){
-                    //     $('#containment').css('height', pageWidth * currentPagePosition);
+                    //     $('#containment').css('height', pageWidth * i);
                     //     $(container).draggable({ containment: '#containment'});
                     // }
                     // }
@@ -408,16 +407,16 @@ $(container).contextmenu({
             }
             
             var containerNumber = Math.floor(position/pageHeight);
-      //       console.log('**************' +containerNumber + ' COntainer number' + pageHeight * currentPagePosition + ' height')
+      //       console.log('**************' +containerNumber + ' COntainer number' + pageHeight * i + ' height')
        
 
             var tmp2 = containers[containerNumber].value+1;
             containers[containerNumber].value = tmp2;
             
             if(containers[containers.length-1].value == 0 ){
-                        currentPagePosition= currentPagePosition-1;
+                        i= i-1;
                         (removePage())
-                        $('#containment').css('height', pageHeight * currentPagePosition);
+                        $('#containment').css('height', pageHeight * i);
                         $(container).draggable({ containment: '#containment'});
             
         }

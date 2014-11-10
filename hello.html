@@ -1,0 +1,84 @@
+<html>
+<body>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script src="http://code.highcharts.com/highcharts.js"></script>
+<link rel="stylesheet" type="text/css" href="./contextMenu.css">
+
+<button id="export">get image</button>
+<div id="imgContainer"></div>
+
+<span id="op">Demo</span> 
+  <div id='cntnr'>                        
+    <ul>                          
+      <li id="1">Item1</li>                      
+      <li id='2'>Item2</li>
+      <li id= '3'>Item3</li>
+      <li>Item4</li>
+      <li>Item5</li>
+    </ul>
+  </div>
+  </body>
+
+<script>
+
+// $(document).bind("contextmenu",function (e){
+
+//     e.preventDefault();                 // To prevent the default context menu.
+//     $("#cntnr").css("left", e.pageX);   // For updating the menu position.
+//     $("#cntnr").css("top", e.pageY);    // 
+//     $("#cntnr").fadeIn(500, startFocusOut()); //  For bringing the context menu in picture.
+// });
+// function startFocusOut() {
+//     $(document).on("click", function () {   
+//         $("#cntnr").hide(500);              // To hide the context menu
+//         $(document).off("click");           
+//     });
+// }
+// $("#1").click(function () {
+//     $("#op").text("You have selected " + $(this).text());  // Performing the selected function.
+// });
+
+var options = {
+
+    exporting: {
+        url: 'http://export.highcharts.com/',
+        sourceWidth: 300,
+        sourceHeight: 200
+
+    },
+    xAxis: {
+        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+            'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+    },
+    series: [{
+        data: [29.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]
+    }]
+};
+
+$('#export').click(function () {
+    var obj = {},
+    exportUrl = options.exporting.url;
+    obj.options = JSON.stringify(options);
+    obj.type = 'image/png';
+    obj.async = true;
+
+    $.ajax({
+        type: 'post',
+        url: exportUrl,
+        data: obj,
+        success: function (data) {
+            var imgContainer = $("#imgContainer");
+            $('<img>').attr('src', exportUrl + data).appendTo(imgContainer);
+            $('<a>or Download Here</a>').attr('href', exportUrl + data).appendTo(imgContainer);
+
+        }
+    });
+
+
+});
+
+
+</script>
+
+</html>

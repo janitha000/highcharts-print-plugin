@@ -1,0 +1,28 @@
+#items
+{
+  list-style: none;      // For removing the list styling.
+  padding: 0px;
+  margin: 5px 0 0 5px;
+  font-size: 20px;       // setting fonts 
+}
+#cntnr
+{
+  display: none;        // initially hidden. 
+  position: fixed;       
+  border: 1px solid grey;
+  width: 150px;
+  background: url(“http://cdn.freebievectors.com/illustrations/12/d/
+    dynamic-brilliant-stereo-effects-figure-vector/small-thumb.jpg”Wink | ;) ;
+    // Context menu background
+  box-shadow: 2px 2px 1px grey;  //adding small drop shadow
+}
+li
+{
+  border-bottom: 1px solid grey;  //for separating bottom border
+  border-bottom-style: dotted;
+}
+#items :hover                       //to add hover effect.
+{
+  background: grey;     
+  color: white;
+}

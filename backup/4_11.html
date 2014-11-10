@@ -1,0 +1,488 @@
+
+
+<html>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script src="http://code.highcharts.com/highcharts.js"></script>
+<script src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+<script src="../jquery.ui.position.js"></script>
+<script src="../jquery.contextMenu.js"></script>
+
+<script id = "options" src="../options.json"></script>
+
+<link rel="stylesheet" type="text/css" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="../style.css">
+
+<body>
+
+    <div id = "mastercontent" style="width: 100%; height: 100%">
+        <div id = "containment" style="float:left;  height: 1122px; width: 794px; ">    
+            <div class="content" style="float:left; border: solid; height: 1122px; width: 794px; "></div>
+            <div id="otherData"></div>
+        </div>
+    </div>
+
+    <div id ="controls" style="float:right;  "> 
+        <br> <p> Orientation</p>
+
+        <input type="radio" id="orietation" name="radiob"value="Portrait" checked="checked"/>Portrait
+        <br>
+        <input type="radio" id="orietation" name="radiob" value="Landscape"/>Landscape <br>
+        <br>
+        <button id="printButton" class="autocompare">Print Chart</button>
+
+        <div id="legend" style ="display: none;">
+            <p>Legend</p>
+            <select id="alignment" name="align">
+                <option value="left">Left</option>
+                <option value="right">Right</option>
+                <option value="center">Center</option> 
+            </select>
+            <select id="Valignment" name="valign">
+                <option value="top">Top</option>
+                <option value="bottom">Bottom</option>
+                <option value="middle">Middle</option> 
+            </select>
+            <select id="layout" name="layout">
+                <option value="Vertical">Vertical</option>
+                <option value="horizontal">Horizontal</option>
+                
+            </select><br>
+        </div>
+
+        <div id ="subtitle" style ="display: none;">
+            <p>Subtitle</p>
+            <select id="Talignment" name="talign">
+                <option value="left">Left</option>
+                <option value="right">Right</option>
+                <option value="center">Center</option> 
+            </select>
+            <select id="VTalignment" name="vtalign">
+                <option value="top">Top</option>
+                <option value="bottom">Bottom</option>
+                <option value="middle">Middle</option> 
+            </select>
+        </div>
+
+        <textarea class="FormElement" style ="display: none;"name="term" id="addData" cols="40" rows="4"></textarea><br>
+
+        <button id="add" style ="display: none;"class="autocompare">Add</button><br>
+
+    </div>
+</div>
+    <!-- context menu -->
+    <span id="op"></span> 
+      <div id='cntnr'>                        
+        <ul>                          
+          <li id="1">Item1</li>                      
+          <li id='2'>Item2</li>
+          <li id= '3'>Item3</li>
+          <li>Item4</li>
+          <li>Item5</li>
+        </ul>
+      </div>
+      </body>
+
+</body>
+
+<script>
+
+
+$(function () {
+    var first = false;
+    var i = 1;
+    var orientation = 'P'
+    var outerPosition = 0;
+    var innerPosition = 99999;
+
+
+    //INITIALIZE AND CREATE CHARTS
+    for(var j=1; j<3; j++){
+        
+        $('.content').append('<div id="container'+j+'"'+' class="charts" style="height: 400; width:400;"</div>')
+        initializeChart("#container" + j );
+        makeDraggeble("#container" + j );
+        createContextMenu("#container" + j );
+    }
+
+
+
+    //MAKE CHARTS DRAGGEBLE
+     function makeDraggeble(container){
+        $( container ).draggable({ containment: "#containment" , stop: function() {
+            paging(container);
+          
+        } } );
+
+        $( "#otherData" ).draggable({ containment: "#containment" });
+     }
+   
+
+
+    
+
+    //LANDSCAPE/PORTRAIT CHANGE
+    $("input[name='radiob']").change(function(){
+        var value = $("input:radio[name=radiob]:checked").val();
+        if(value == 'Portrait'){
+            
+                $( ".content" ).height(1122);
+                $( ".content" ).width(794);
+                orientation = 'P';             }
+        else {
+            
+            $( ".content" ).height(794);
+            $( ".content" ).width(1122);
+            $( "#controls" ).height(794);
+            orientation = 'L'
+            
+        }
+    });
+
+
+
+   
+ 
+ //RESIZE CHART      
+ function resizeChart(container){
+
+    highChartsResize(container);
+    
+    
+};
+
+//LEGEND CHANGE
+function legend(container){
+    $( "#legend" ).dialog({
+        buttons: { "Done" : modifyLegend}
+    });
+
+    function modifyLegend(){
+        highchartLegend(container);
+    }
+};
+
+//SUBTITLE CHANGE
+function subtitle(container){      
+     $( "#subtitle" ).dialog({
+        buttons: { "Done" : modifySubtitle}
+     });
+
+     function modifySubtitle(){
+        highchartsSubtitle(container);
+         
+     }
+}
+
+
+//CONTEXT MENU
+function createContextMenu(container){
+
+// $(container).bind("contextmenu",function (e){
+
+//     e.preventDefault();                 // To prevent the default context menu.
+//     $("#cntnr").css("left", e.pageX);   // For updating the menu position.
+//     $("#cntnr").css("top", e.pageY);    // 
+//     $("#cntnr").fadeIn(500, startFocusOut()); //  For bringing the context menu in picture.
+// });
+// function startFocusOut() {
+//     $(container).on("click", function () {   
+//         $("#cntnr").hide(500);              // To hide the context menu
+//         $(container).off("click");           
+//     });
+// }
+// $("#1").click(function () {
+//     $("#op").text("You have selected " + $(this).text());  // Performing the selected function.
+// });
+
+$(function(){
+    $.contextMenu({
+        selector: container, 
+        callback: function(key, options) {
+            var m = "clicked: " + key;
+            window.console && console.log(m) || alert(m); 
+        },
+        items: {
+            "resize": {
+                name: "Resize",
+                callback: function(){
+
+                       resizeChart(container);
+                    }
+                },
+            "legend": {
+                name: " Legend", 
+                callback: function(){
+                       legend(container);
+                    }
+            },
+            "subtitle": {
+                name: "Subtitle", 
+                callback: function(){
+                       subtitle(container);
+                    }
+            },
+            
+        }
+    });
+
+
+    
+    
+});
+}
+
+//ADD OHTER DATA
+ $("#add").click(function() {
+        var data = $("#addData").val();
+        $( "#otherData" ).append(data);
+    });
+
+//CREATE A NEW PAGE
+ function newPage(mode,container){
+    if(mode == 'P'){
+        $('#containment').append('<div class="content" style="float:left; border: solid; height: 1122px; width: 794px; ">');
+       
+    }
+    else 
+        $('#mastercontent').append('<div class="content" style="float:left; border: solid; height: 794px; width:  1122px; ">');
+   
+    //$(container).draggable({ containment: '.content:last-child , .content'});
+
+    
+ }
+
+ //REMOVE A PAGE
+ function removePage(){
+    $( ".content" ).last().remove();
+    
+    
+ }
+
+  //TESTING PRINT FUNCTIONALITY
+    $('#printButton').click(function () {
+        Popup($('.content').html());
+        
+        
+        function Popup(data) 
+        {
+            var mywindow = window.open('', 'my div', 'height=1000,width=1000');
+            mywindow.document.write('<html><head>');
+            mywindow.document.write('</head><body >');
+            mywindow.document.write(data);
+            mywindow.document.write('</body></html>');
+
+            mywindow.print();
+            mywindow.close();
+
+            return true;
+        }
+
+    });
+
+//****************************************Highcharts Functions*************************************************
+ function createChart(container){
+    $.getJSON( 'options.json', function( options ) {
+    $(container).highcharts(options);
+    
+    });
+ }
+
+function initializeChart(container){
+    var oriChart = $(container).highcharts( 
+        {
+    //$('#container').highcharts({
+
+        chart: {
+            renderTo: 'container',
+            type: 'line',
+            width: 400,
+            height: 400
+        },
+        title: {
+            text: 'Highcharts Draggable Legend Demo'
+        },
+        xAxis: {
+            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                         'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            labels: {
+                zIndex: 6
+            }
+        },
+        yAxis: {
+            title: {
+                text: 'Temperature (°C)'
+            },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }],
+            labels: {
+                zIndex: 6
+            }
+        },
+        subtitle: {
+            text: 'This is a test subtitle',
+            align: 'center',
+            x: -10
+        },
+        tooltip: {
+            formatter: function() {
+                return '<b>'+ this.series.name +'</b><br/>'+
+                    this.x +': '+ this.y +'°C';
+            }
+        },
+        
+        navigation: {
+            buttonOptions: {
+                enabled: false
+            }
+        },
+
+        exporting: {
+            url: 'http://export.highcharts.com/'
+        },
+
+        load: function () {
+            loaded = true
+        },
+
+        
+        series: [{
+            name: 'Tokyo',
+            data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6]
+        }, {
+            name: 'New York',
+            data: [-0.2, 0.8, 5.7, 11.3, 17.0, 22.0, 24.8, 24.1, 20.1, 14.1, 8.6, 2.5]
+        }, {
+            name: 'Berlin',
+            data: [-0.9, 0.6, 3.5, 8.4, 13.5, 17.0, 18.6, 17.9, 14.3, 9.0, 3.9, 1.0]
+        }, {
+            name: 'London',
+            data: [3.9, 4.2, 5.7, 8.5, 11.9, 15.2, 17.0, 16.6, 14.2, 10.3, 6.6, 4.8]
+        }]
+    
+    }
+    );
+}
+
+function highChartsResize(container){
+    var chart = $(container).highcharts();
+    var first = $(container).resizable( "instance" );
+        if(typeof first === "undefined"){
+        
+        }
+        else {
+            $(container).resizable("destroy"); 
+        }
+
+        $(container).resizable({
+           
+        resize: function() {
+        chart.setSize(
+            this.offsetWidth - 20, 
+            this.offsetHeight - 20,
+            false
+        );
+    },
+        stop: function() {
+            paging(container);
+          
+        }
+    })
+
+}
+
+function paging(container){
+    var position = (document.querySelector(container).offsetTop) + (document.querySelector(container).clientHeight);
+            
+            if (position < innerPosition){
+                innerPosition = position
+            }
+
+            //alert('outer position is ' + outerPosition + 'inner position is ' + innerPosition);
+            switch(orientation){
+                case 'P' :
+                    if( position > 1122 * i){
+                        i= i+1;
+                        newPage('P',container);
+                         $('#containment').css('height', 1122 * i);
+                         $(container).draggable({ containment: '#containment'});
+                        
+                    }
+
+                    else if(position< 1122 * (i-1)){
+                        i= i-1;
+                        removePage();
+                        $('#containment').css('height', 1122 * i);
+                        $(container).draggable({ containment: '#containment'});
+                    }
+                    break;
+                case 'L':
+                    if( position > 794 * i){
+                        i= i+1;
+                        newPage('L',container);
+                    }
+
+                    else if(position < 794 * (i-1)){
+                        i= i-1;
+                        removePage();
+                    }
+                    break;
+
+
+            }
+}
+
+
+function highchartLegend(container){
+    var chart = $(container).highcharts();
+
+    var options = {
+        
+            legend: {
+                align: $("#alignment option:selected").val(),
+                verticalAlign: $("#Valignment option:selected").val(),
+                layout: $("#layout option:selected").val(),
+                
+            }
+        };
+        
+        //Highcharts.setOptions(options);
+        var chartOptions = chart.options;
+        var newOptions = Highcharts.merge(chartOptions, options);
+        
+        chart.destroy();
+        var chart1 = new Highcharts.Chart(newOptions); 
+}
+
+function highchartsSubtitle(container){                           //BOTTOM FUNCTIONALITY
+    var chart = $(container).highcharts();
+
+        var options = {
+            subtitle: {
+                
+                align: $("#Talignment option:selected").val(),
+                verticalAlign: $("#VTalignment option:selected").val(),
+                x: -10
+                
+                
+                
+            }
+        }
+       // Highcharts.setOptions(options);
+        var chartOptions = chart.options;
+        var newOptions = Highcharts.merge(chartOptions, options);
+        
+        chart.destroy();
+        var chart1 = new Highcharts.Chart(newOptions);
+}
+
+
+
+});
+
+</script>
+
+</html>

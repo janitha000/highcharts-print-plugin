@@ -1,0 +1,71 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    
+    display: block;
+     
+}
+
+html{
+  overflow: scroll;
+}
+
+#containment{
+  margin: 0;
+}
+
+.charts{
+    /*max-height: 100%; */
+    max-width: 100%;
+
+    
+}
+
+.content{
+  border: solid;
+}
+
+.chartData{
+  max-width: 100%;
+  text-align: center;
+}
+
+
+
+@media print {
+  
+
+  #controls{
+    display: none;
+  },
+  .content{
+    border: none !important ;
+  }
+  
+}
+
+/*#container2{
+    max-height: 100%;
+    max-width: 100%;
+
+}*/
+
+
+
+
+/*****************************************************************************/
+/*#charts{
+    max-height: 100%;
+    max-width: 100%;
+
+}
+
+#otherData{
+    max-height: 100%;
+    max-width: 100%;
+    min-height: 10px;
+    min-width: 10px;
+    overflow: hidden;
+}*/
+

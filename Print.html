@@ -92,7 +92,7 @@ $(function () {
     var pageWidth = 794;
     var PNo=2;
     var LNo=2;
-    var noOfCharts = 5;
+    var noOfCharts = 3;
     
     var containers = [
          {
@@ -283,12 +283,13 @@ $(container).contextmenu({
       } 
       console.log("i is " + i);
 
-    // Popup($('.content').html());
+    Popup($('.content').html());
         
         
-    //     function Popup(data) 
-    //     {
-    //         console.log(data);
+        function Popup(data) 
+
+        {
+             console.log(data);
     //         var mywindow = window.open('', 'my div', 'height=1000,width=1000');
     //         mywindow.document.write('<html><head>');
     //         mywindow.document.write('</head><body>');
@@ -296,11 +297,11 @@ $(container).contextmenu({
     //         mywindow.document.write('</body></html>');
 
              window.print();
-             
+
     //         mywindow.close();
 
     //         return true;
-    //     }
+        }
 
     });
 

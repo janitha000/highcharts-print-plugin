@@ -117,6 +117,7 @@ $(function () {
         makeDraggeble("#container" + j );
         createContextMenu("#container" + j );
         
+        
        
     } 
 }
@@ -127,13 +128,23 @@ $(function () {
          {
                 id: "content1",
                 value: 4
-            },
-             {
-                id: "content2",
-                value: 0
-            }
+             }
+            // ,
+            //  {
+            //     id: "content2",
+            //     value: 0
+            // },
+            // {
+            //     id: "content3",
+            //     value: 0
+            // }
 
     ];
+
+     i = 1;
+     PNo=2;
+     LNo=2;
+     
     }
     
 
@@ -159,6 +170,7 @@ $(function () {
     //LANDSCAPE/PORTRAIT CHANGE
     $("input[name='radiob']").change(function(){
         var value = $("input:radio[name=radiob]:checked").val();
+        
         if(value == 'Portrait'){
             
                 $( ".content" ).height(pageHeight);
@@ -166,8 +178,9 @@ $(function () {
                 $( "#containment" ).height(pageHeight*i-1);
                 $( "#containment" ).width(pageWidth);
                 orientation = 'P'; 
-                // reinitiate(); 
-                // initialization();
+                 reinitiate(); 
+                 
+                 initialization();
 
             }
         else {
@@ -177,8 +190,9 @@ $(function () {
             $( "#containment" ).height(pageWidth);
             $( "#containment" ).width(pageHeight);
             orientation = 'L';
-            // reinitiate(); 
-            // initialization();
+            reinitiate(); 
+            i=1;
+            initialization();
             
             
             
@@ -248,18 +262,34 @@ $(container).contextmenu({
  function newPage(mode,container){
     if(mode == 'P'){
         $('#containment').append('<div id="content'+PNo+'" class = "content" style="float:left;  height: 1122px; width: 794px; ">');
-         
-    }
-    else 
-        $('#mastercontent').append('<div id="content'+LNo+'" class ="content" style="float:left;  height: 794px; width:  1122px; ">');
-   
-    //$(container).draggable({ containment: '.content:last-child , .content'});
-    if(containers[containers.length-1].id != "content"+PNo)
+        if(containers[containers.length-1].id != "content"+PNo){
     containers.push({
                 id: "content"+PNo,
                 value: 0
             });
+    }
     PNo = PNo + 1;
+         
+    }
+    else {
+        console.log("Came to Landscape new page " + LNo)
+        $('#mastercontent').append('<div id="content'+LNo+'" class ="content" style="float:left;  height: 794px; width:  1122px; ">');
+        if(containers[containers.length-1].id != "content"+LNo) {
+        containers.push({
+                id: "content"+LNo,
+                value: 0
+            });
+    }
+        LNo = LNo + 1;
+    }
+   
+    //$(container).draggable({ containment: '.content:last-child , .content'});
+    // if(containers[containers.length-1].id != "content"+PNo)
+    // containers.push({
+    //             id: "content"+PNo,
+    //             value: 0
+    //         });
+    // PNo = PNo + 1;
     
     
     
@@ -282,7 +312,7 @@ $(container).contextmenu({
     for(var n=0; n < containers.length; n++){
       console.log(containers[n].id + " " + containers[n].value); 
       } 
-      console.log("i is " + i);
+      
 
     // Popup($('.content').html());
         
@@ -310,10 +340,12 @@ $(container).contextmenu({
     function pageManagement(container){
     var position = (document.querySelector(container).offsetTop) + (document.querySelector(container).clientHeight);
          var tmpheight;
-        // if(orietation == 'L'){
-        //     tmpheight = pageHeight;
-        //     pageHeight = pageWidth;
-        // }
+        // console.log("i is before  " +i )
+         
+        if(orientation == 'L'){
+            tmpheight = pageHeight;
+            pageHeight = pageWidth;
+        }
 
         var prevContainer =   Math.floor(startingPosition/pageHeight);
         var tmp = containers[prevContainer].value -1;
@@ -339,26 +371,32 @@ $(container).contextmenu({
                     // }
                     break;
                 case 'L':
-                    if( position >= pageWidth * i){
+                    if( position >= pageHeight * i){
                         i= i+1;
                         newPage('L',container);
-                        $('#containment').css('height', pageWidth * i);
+                        $('#containment').css('height', pageHeight * i);
+                        console.log("came")
                         $(container).draggable({ containment: '#containment'});
                     }
 
-                    else if(position < pageWidth * (i-1)){
-                        i= i-1;
-                        if(removePage()){
-                        $('#containment').css('height', pageWidth * i);
-                        $(container).draggable({ containment: '#containment'});
-                    }
-                    }
+                    // else if(position < pageWidth * (i-1)){
+                    //     i= i-1;
+                    //     if(removePage()){
+                    //     $('#containment').css('height', pageWidth * i);
+                    //     $(container).draggable({ containment: '#containment'});
+                    // }
+                    // }
                     break;
 
 
             }
-
+            
             var containerNumber = Math.floor(position/pageHeight);
+            console.log('**************' +containerNumber + ' COntainer number' + pageHeight * i + ' height')
+            for(var n=0; n < containers.length; n++){
+      console.log(containers[n].id + " " + containers[n].value); 
+      } 
+
             var tmp2 = containers[containerNumber].value+1;
             containers[containerNumber].value = tmp2;
             
@@ -370,9 +408,11 @@ $(container).contextmenu({
             
         }
 
-        // if(orietation == 'L'){
-        //     pageHeight = tmpheight;
-        // }
+        if(orientation == 'L'){
+            pageHeight = tmpheight;
+        }
+        //console.log("LNO is " +LNo )
+
     }       
 
 //****************************************Highcharts Functions*************************************************

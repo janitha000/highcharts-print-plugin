@@ -115,6 +115,7 @@ $(function () {
         $("#container" + j ).append('<div id = "chartData'+j+'"'+' class = "chartData"><h1>dsfasfagsgssdf<h1></div>');
         //initilizeArray("#container" + j );
         makeDraggeble("#container" + j );
+        makeDraggeble("#chartData"+j);
         createContextMenu("#containerChart"+j  );
         
         
@@ -213,6 +214,7 @@ $(function () {
  function resizeChart(container){
 
     highChartsResize(container);
+    pageManagement(container);
     
     
 };

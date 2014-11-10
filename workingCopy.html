@@ -262,6 +262,7 @@ $(container).contextmenu({
  function newPage(mode,container){
     if(mode == 'P'){
         $('#containment').append('<div id="content'+PNo+'" class = "content" style="float:left;  height: 1122px; width: 794px; ">');
+        console.log(containers[containers.length-1].id +"containers");
         if(containers[containers.length-1].id != "content"+PNo){
     containers.push({
                 id: "content"+PNo,
@@ -272,7 +273,7 @@ $(container).contextmenu({
          
     }
     else {
-        console.log("Came to Landscape new page " + LNo)
+        
         $('#mastercontent').append('<div id="content'+LNo+'" class ="content" style="float:left;  height: 794px; width:  1122px; ">');
         if(containers[containers.length-1].id != "content"+LNo) {
         containers.push({
@@ -348,6 +349,7 @@ $(container).contextmenu({
         }
 
         var prevContainer =   Math.floor(startingPosition/pageHeight);
+        
         var tmp = containers[prevContainer].value -1;
         containers[prevContainer].value = tmp;
 
@@ -392,10 +394,10 @@ $(container).contextmenu({
             }
             
             var containerNumber = Math.floor(position/pageHeight);
-            console.log('**************' +containerNumber + ' COntainer number' + pageHeight * i + ' height')
-            for(var n=0; n < containers.length; n++){
-      console.log(containers[n].id + " " + containers[n].value); 
-      } 
+      //       console.log('**************' +containerNumber + ' COntainer number' + pageHeight * i + ' height')
+      //       for(var n=0; n < containers.length; n++){
+      // console.log(containers[n].id + " " + containers[n].value); 
+      // } 
 
             var tmp2 = containers[containerNumber].value+1;
             containers[containerNumber].value = tmp2;

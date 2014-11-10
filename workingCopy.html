@@ -144,6 +144,8 @@ $(function () {
      i = 1;
      PNo=2;
      LNo=2;
+      $( "#containment" ).empty();
+     $('#containment').append(' <div id = "content1" class ="content" style="float:left; height: 297mm ; width: 210mm;"> </div>');
      
     }
     
@@ -273,8 +275,8 @@ $(container).contextmenu({
          
     }
     else {
-        
-        $('#mastercontent').append('<div id="content'+LNo+'" class ="content" style="float:left;  height: 794px; width:  1122px; ">');
+        console.log("came " + container);
+        $('#containment').append('<div id="content'+LNo+'" class ="content" style="float:left;  height: 794px; width:  1122px; ">');
         if(containers[containers.length-1].id != "content"+LNo) {
         containers.push({
                 id: "content"+LNo,
@@ -302,8 +304,10 @@ $(container).contextmenu({
     
         $( ".content" ).last().remove();
         containers.pop();
+        if(mode == 'P')
         PNo = PNo -1;
-        
+        else
+        LNo = LNo -1;
 
     
  }
@@ -314,7 +318,7 @@ $(container).contextmenu({
       console.log(containers[n].id + " " + containers[n].value); 
       } 
       
-      
+
     Popup($('.content').html());
         
         
@@ -349,7 +353,10 @@ $(container).contextmenu({
         }
 
         var prevContainer =   Math.floor(startingPosition/pageHeight);
-        
+             for(var n=0; n < containers.length; n++){
+      console.log(containers[n].id + " " + containers[n].value); 
+      } 
+        console.log('prevContainer ' + prevContainer);
         var tmp = containers[prevContainer].value -1;
         containers[prevContainer].value = tmp;
 
@@ -377,7 +384,7 @@ $(container).contextmenu({
                         i= i+1;
                         newPage('L',container);
                         $('#containment').css('height', pageHeight * i);
-                        console.log("came")
+                        
                         $(container).draggable({ containment: '#containment'});
                     }
 
@@ -395,9 +402,7 @@ $(container).contextmenu({
             
             var containerNumber = Math.floor(position/pageHeight);
       //       console.log('**************' +containerNumber + ' COntainer number' + pageHeight * i + ' height')
-      //       for(var n=0; n < containers.length; n++){
-      // console.log(containers[n].id + " " + containers[n].value); 
-      // } 
+       
 
             var tmp2 = containers[containerNumber].value+1;
             containers[containerNumber].value = tmp2;

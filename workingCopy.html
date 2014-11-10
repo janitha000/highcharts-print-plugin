@@ -145,8 +145,10 @@ $(function () {
      PNo=2;
      LNo=2;
       $( "#containment" ).empty();
+      if(orientation =='P')
      $('#containment').append(' <div id = "content1" class ="content" style="float:left; height: 297mm ; width: 210mm;"> </div>');
-     
+     else
+        $('#containment').append(' <div id = "content1" class ="content" style="float:left; height:210mm  ; width: 297mm;"> </div>');
     }
     
 
@@ -304,7 +306,7 @@ $(container).contextmenu({
     
         $( ".content" ).last().remove();
         containers.pop();
-        if(mode == 'P')
+        if(orientation == 'P')
         PNo = PNo -1;
         else
         LNo = LNo -1;

@@ -86,18 +86,20 @@
 
 
 $(function () {
-    var first = false;
-    var currentPagePosition = 1;
-    var orientation = 'P';
-    var startingPosition = 0;
     
-    var pageHeight = 1122;
-    var pageWidth = 794;
-    var PNo=2;
-    var LNo=2;
-    var noOfCharts = 5;
+    //GLOBAL VARIABLES
+    var first = false;              //TO DETERMINE WHETHER THE CHART IS INITIALISED
+    var currentPagePosition = 1;    //CURRENT PAGE NUMBER
+    var orientation = 'P';          //ORIENTATION (DEFAULT - PORTRAIT)
+    var startingPosition = 0;       //STARTING POSITION OF A DRAGGABLE CHART
     
-    var containers = [
+    var pageHeight = 1122;          //PAGE HEIGHT
+    var pageWidth = 794;            //PAGE WIDTH
+    var PNo=2;                      //NEXT PAGE NUMBER IN PORTRAIT MODE
+    var LNo=2;                      //NEXT PAGE NUMBER IN LANSCAPE MODE
+    var noOfCharts = 5;             
+    
+    var containers = [              //ASSOCIATIVE ARRAY THAT CONTAINS THE PAGE NUMBER OF NO OF CHARTS IN THAT PAGE
          {
                 id: "content1",
                 value: 4
@@ -119,11 +121,13 @@ $(function () {
         makeDraggeble("#container" + j );
         makeDraggeble("#chartData"+j);
         createContextMenu("#containerChart"+j  );
-        
-        
-       
-    } 
-}
+       } 
+    }
+
+    //APPEND OTHER CHART DATA
+    function appendChartData(container){
+        $(container).append();
+    }
 
     //MAKE CONTROLS SCROLLABLE
     var scroll = 0;
@@ -144,34 +148,25 @@ $(function () {
                 id: "content1",
                 value: 4
              }
-            // ,
-            //  {
-            //     id: "content2",
-            //     value: 0
-            // },
-            // {
-            //     id: "content3",
-            //     value: 0
-            // }
-
-    ];
-
+        ];
+    
      currentPagePosition = 1;
      PNo=2;
      LNo=2;
-      $( "#containment" ).empty();
-      if(orientation =='P')
-     $('#containment').append(' <div id = "content1" class ="content" style="float:left; height: 297mm ; width: 210mm;"> </div>');
-     else
+      
+     $( "#containment" ).empty();
+     if(orientation =='P'){
+        $('#containment').append(' <div id = "content1" class ="content" style="float:left; height: 297mm ; width: 210mm;"> </div>');
+    }
+     else {
         $('#containment').append(' <div id = "content1" class ="content" style="float:left; height:210mm  ; width: 297mm;"> </div>');
+    }
 
     startingPosition = 0;
     }
     
 
-    function appendChartData(container){
-        $(container).append();
-    }
+    
 
     //MAKE CHARTS DRAGGEBLE
      function makeDraggeble(container){
@@ -182,7 +177,7 @@ $(function () {
          
      }
    
-
+     //GET THE STARTING POSITION OF A CHART
      function getStartPoint(container){
         startingPosition = (document.querySelector(container).offsetTop) + (document.querySelector(container).clientHeight);
      }
@@ -200,20 +195,18 @@ $(function () {
                 $( "#containment" ).width(pageWidth);
                 orientation = 'P'; 
                  reinitiate(); 
-                 
                  initialization();
 
             }
         else {
             
-            $( ".content" ).height(pageWidth);
-            $( ".content" ).width(pageHeight);
-            $( "#containment" ).height(pageWidth);
-            $( "#containment" ).width(pageHeight);
-            orientation = 'L';
-            reinitiate(); 
-            currentPagePosition=1;
-            initialization();
+                $( ".content" ).height(pageWidth);
+                $( ".content" ).width(pageHeight);
+                $( "#containment" ).height(pageWidth);
+                $( "#containment" ).width(pageHeight);
+                orientation = 'L';
+                reinitiate(); 
+                initialization();
             
             
             
@@ -239,17 +232,16 @@ function legend(container){
     //     buttons: { "Done" : modifyLegend}
     // });
 
-$('#legend').show();
-$('#legendButton').click(function(){
-    modifyLegend();
-    $('#legend').hide();
-});
+    $('#legend').show();
+    $('#legendButton').click(function(){
+        modifyLegend();
+        $('#legend').hide();
+    });
 
     function modifyLegend(){
         highchartLegend(container);
-        
-    }
-};
+        }
+    };
 
 //SUBTITLE CHANGE
 function subtitle(container){      
@@ -257,11 +249,11 @@ function subtitle(container){
      //    buttons: { "Done" : modifySubtitle}
      // });
 
-$('#subtitle').show();
-$('#subtitleButton').click(function(){
-    modifySubtitle();
-    $('#subtitle').hide();
-});
+    $('#subtitle').show();
+    $('#subtitleButton').click(function(){
+        modifySubtitle();
+        $('#subtitle').hide();
+    });
 
      function modifySubtitle(){
         highchartsSubtitle(container);
@@ -279,6 +271,7 @@ $(container).contextmenu({
         {title: "Resize", action : function() { resizeChart(container); }},
         {title: "----"},
         {title: "Legend", action : function() { legend(container); }},
+        {title: "----"},
         {title: "Subtitle", action : function() { subtitle(container); }},
         ]
     
@@ -293,17 +286,16 @@ $(container).contextmenu({
     });
 
 //CREATE A NEW PAGE
-
- function newPage(mode,container){
+function newPage(mode,container){
     if(mode == 'P'){
         $('#containment').append('<div id="content'+PNo+'" class = "content" style="float:left;  height: 1122px; width: 794px; ">');
         console.log(containers[containers.length-1].id +"containers");
         if(containers[containers.length-1].id != "content"+PNo){
-    containers.push({
-                id: "content"+PNo,
-                value: 0
-            });
-    }
+            containers.push({
+                        id: "content"+PNo,
+                        value: 0
+                    });
+        }
     PNo = PNo + 1;
          
     }
@@ -364,7 +356,7 @@ $(container).contextmenu({
     //         mywindow.document.write(data);
     //         mywindow.document.write('</body></html>');
 
-    //         mywindow.print();
+            window.print();
     //         mywindow.close();
 
     //         return true;
@@ -376,8 +368,7 @@ $(container).contextmenu({
 
     //ADDING AND REMOVING NEW PAGES
     function pageManagement(container){
-    var a = document.querySelector(container).offsetTop;
-    var b = document.querySelector(container).clientHeight;
+    
     var position = (document.querySelector(container).offsetTop) + (document.querySelector(container).clientHeight);
          var tmpheight;
         // console.log("currentPagePosition is before  " +currentPagePosition )

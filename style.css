@@ -7,20 +7,19 @@ html, body {
      
 }
 
-html{
-  overflow: scroll;
+
+
+.container{
+
 }
 
 #containment{
   margin: 0;
+  width: 100%;
 }
 
-/*.charts{
-    max-height: 100%; 
-    max-width: 100%;
 
-    
-}*/
+
 
 .content{
   border: ridge;
@@ -36,13 +35,11 @@ html{
 @media print {
   
 
-  
-  .content{
-    border: solid;
-  }
   #controls{
     display: none;
   }
+
+
   
 }
 

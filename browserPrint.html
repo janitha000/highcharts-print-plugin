@@ -17,18 +17,12 @@
 
 
 <body>
-        <div id = "wrapper">
-        <div id ="controls" style="float:right;  margin-right: 150px; "> 
-        <!-- <br> <h2> Orientation</h2>
-
-        <input type="radio" id="orietation" name="radiob"value="Portrait" checked="checked"/>Portrait
-        <br>
-        <input type="radio" id="orietation" name="radiob" value="Landscape"/>Landscape <br>
-        <br>
-        <button id="printButton" class="autocompare">Print Chart</button> -->
+        
+        <div id ="controls" style="float:left;  margin-left: 100px; margin-top: 10px; "> 
+        <button id="printButton" style ="height: 5em; width: 10em; " class="autocompare">Print Chart</button> 
 
         <div id="legend" style ="display: none;">
-            <p>Legend</p>
+            <p>Legend
             <select id="alignment" name="align">
                 <option value="left">Left</option>
                 <option value="right">Right</option>
@@ -43,8 +37,8 @@
                 <option value="Vertical">Vertical</option>
                 <option value="horizontal">Horizontal</option>
                 
-            </select><br>
-            <button id = "legendButton">Done</button>
+            </select>
+            <button id = "legendButton">Done</button></p>
         </div>
 
         <div id ="subtitle" style ="display: none;">
@@ -68,17 +62,17 @@
 
     </div>
 
-    <div id = "mastercontent" style="width: 100%;">
-        <div id = "containment" style="float:left;  height: 1222px; width: 794px; ">    
-             <div id="content1" class ="content" style="float:left;  height: 1122px ; width: 794px; "></div> 
-            
-        </div>
+    
+    <div id = "containment" style="float:left;  height: 100%; width: 100%; ">    
+         <div id="content1" style="float:left;  height: 100% ; width: 100%; "></div> 
+        
     </div>
+   
 
 
 </div>
     
-   </div> 
+ 
 
 </body>
 
@@ -88,32 +82,20 @@
 $(function () {
     
     //GLOBAL VARIABLES
-    var first = false;              //TO DETERMINE WHETHER THE CHART IS INITIALISED
-    var currentPagePosition = 1;    //CURRENT PAGE NUMBER
-    var orientation = 'P';          //ORIENTATION (DEFAULT - PORTRAIT)
-    var startingPosition = 0;       //STARTING POSITION OF A DRAGGABLE CHART
-    
-    var pageHeight = 1122;          //PAGE HEIGHT
-    var pageWidth = 794;            //PAGE WIDTH
-    var PNo=2;                      //NEXT PAGE NUMBER IN PORTRAIT MODE
-    var LNo=2;                      //NEXT PAGE NUMBER IN LANSCAPE MODE
+ 
     var noOfCharts = 5;             
     
-    var containers = [              //ASSOCIATIVE ARRAY THAT CONTAINS THE PAGE NUMBER OF NO OF CHARTS IN THAT PAGE
-         {
-                id: "content1",
-                value: 4
-            }
-    ];
+
 
     initialization();
+    makeheight();
 
     //INITIALIZE AND CREATE CHARTS
     function initialization(){
     for(var j=1; j<noOfCharts +1; j++){
 
-        $('#content1').append('<div id="container'+j+'"'+' style="height: 400; width:400;position:relative" ></div>');
-        pageManagement("#container" + j);
+        $('#content1').append('<div id="container'+j+'"'+' class = "container" style="height: 400; width:400;position:relative" ></div>');
+       // pageManagement("#container" + j);
         $("#container" + j ).append('<div id="containerChart'+j+'"'+' class="charts" style="height: 400; width:400;position:relative" ></div>');
         initializeChart("#containerChart"+j );
         $("#container" + j ).append('<div id = "chartData'+j+'"'+' class = "chartData"><h1>dsfasfagsgssdf<h1></div>');
@@ -130,40 +112,34 @@ $(function () {
     }
 
     //MAKE CONTROLS SCROLLABLE
-    var scroll = 0;
-    var marginTop = 10;
-    $(document).ready(function(){  
-        $(window).scroll(function () {
-            marginTop = ($(document).scrollTop() - scroll) + marginTop;
-            scroll = $(document).scrollTop();
+    // var scroll = 0;
+    // var marginTop = 10;
+    // $(document).ready(function(){  
+    //     $(window).scroll(function () {
+    //         marginTop = ($(document).scrollTop() - scroll) + marginTop;
+    //         scroll = $(document).scrollTop();
 
-            $("#controls").animate({"marginTop": marginTop+"px"}, {duration:500,queue:false} );
-        });  
-    });
+    //         $("#controls").animate({"marginTop": marginTop+"px"}, {duration:500,queue:false} );
+    //     });  
+    // });
 
 
-    function reinitiate(){
-        containers = [
-         {
-                id: "content1",
-                value: 4
-             }
-        ];
+    function makeheight(){
+        var winWidth = $(document).width();
+        var winHeight = $(document).height();
+        console.log(winWidth + " " + winHeight);
+// set initial div height / width
+    $('#containment').css({
+
+        'width': winWidth,
+        'height': winHeight,
+
+        });
+
+     }
+
     
-     currentPagePosition = 1;
-     PNo=2;
-     LNo=2;
-      
-     $( "#containment" ).empty();
-     if(orientation =='P'){
-        $('#containment').append(' <div id = "content1" class ="content" style="float:left; height: 297mm ; width: 210mm;"> </div>');
-    }
-     else {
-        $('#containment').append(' <div id = "content1" class ="content" style="float:left; height:210mm  ; width: 297mm;"> </div>');
-    }
-
-    startingPosition = 0;
-    }
+     
     
 
     
@@ -171,7 +147,7 @@ $(function () {
     //MAKE CHARTS DRAGGEBLE
      function makeDraggeble(container){
         $( container ).draggable({ containment: "#containment" , snap: ".content", start : function(){ getStartPoint(container); } ,stop: function() {
-            pageManagement(container);
+            //pageManagement(container);
           
         } } );
          
@@ -184,34 +160,34 @@ $(function () {
     
 
     //LANDSCAPE/PORTRAIT CHANGE
-    $("input[name='radiob']").change(function(){
-        var value = $("input:radio[name=radiob]:checked").val();
+    // $("input[name='radiob']").change(function(){
+    //     var value = $("input:radio[name=radiob]:checked").val();
         
-        if(value == 'Portrait'){
+    //     if(value == 'Portrait'){
             
-                $( ".content" ).height(pageHeight);
-                $( ".content" ).width(pageWidth);
-                $( "#containment" ).height(pageHeight*currentPagePosition-1);
-                $( "#containment" ).width(pageWidth);
-                orientation = 'P'; 
-                 reinitiate(); 
-                 initialization();
+    //             $( ".content" ).height(pageHeight);
+    //             $( ".content" ).width(pageWidth);
+    //             $( "#containment" ).height(pageHeight*currentPagePosition-1);
+    //             $( "#containment" ).width(pageWidth);
+    //             orientation = 'P'; 
+    //              reinitiate(); 
+    //              initialization();
 
-            }
-        else {
+    //         }
+    //     else {
             
-                $( ".content" ).height(pageWidth);
-                $( ".content" ).width(pageHeight);
-                $( "#containment" ).height(pageWidth);
-                $( "#containment" ).width(pageHeight);
-                orientation = 'L';
-                reinitiate(); 
-                initialization();
+    //             $( ".content" ).height(pageWidth);
+    //             $( ".content" ).width(pageHeight);
+    //             $( "#containment" ).height(pageWidth);
+    //             $( "#containment" ).width(pageHeight);
+    //             orientation = 'L';
+    //             reinitiate(); 
+    //             initialization();
             
             
             
-        }
-    });
+    //     }
+    // });
 
 
 
@@ -286,56 +262,56 @@ $(container).contextmenu({
     });
 
 //CREATE A NEW PAGE
-function newPage(mode,container){
-    if(mode == 'P'){
-        $('#containment').append('<div id="content'+PNo+'" class = "content" style="float:left;  height: 1122px; width: 794px; ">');
-        console.log(containers[containers.length-1].id +"containers");
-        if(containers[containers.length-1].id != "content"+PNo){
-            containers.push({
-                        id: "content"+PNo,
-                        value: 0
-                    });
-        }
-    PNo = PNo + 1;
+// function newPage(mode,container){
+//     if(mode == 'P'){
+//         $('#containment').append('<div id="content'+PNo+'" class = "content" style="float:left;  height: 1122px; width: 794px; ">');
+//         console.log(containers[containers.length-1].id +"containers");
+//         if(containers[containers.length-1].id != "content"+PNo){
+//             containers.push({
+//                         id: "content"+PNo,
+//                         value: 0
+//                     });
+//         }
+//     PNo = PNo + 1;
          
-    }
-    else {
-        console.log("came " + container);
-        $('#containment').append('<div id="content'+LNo+'" class ="content" style="float:left;  height: 794px; width:  1122px; ">');
-        if(containers[containers.length-1].id != "content"+LNo) {
-        containers.push({
-                id: "content"+LNo,
-                value: 0
-            });
-    }
-        LNo = LNo + 1;
-    }
+//     }
+//     else {
+//         console.log("came " + container);
+//         $('#containment').append('<div id="content'+LNo+'" class ="content" style="float:left;  height: 794px; width:  1122px; ">');
+//         if(containers[containers.length-1].id != "content"+LNo) {
+//         containers.push({
+//                 id: "content"+LNo,
+//                 value: 0
+//             });
+//     }
+//         LNo = LNo + 1;
+//     }
    
-    //$(container).draggable({ containment: '.content:last-child , .content'});
-    // if(containers[containers.length-1].id != "content"+PNo)
-    // containers.push({
-    //             id: "content"+PNo,
-    //             value: 0
-    //         });
-    // PNo = PNo + 1;
+//     //$(container).draggable({ containment: '.content:last-child , .content'});
+//     // if(containers[containers.length-1].id != "content"+PNo)
+//     // containers.push({
+//     //             id: "content"+PNo,
+//     //             value: 0
+//     //         });
+//     // PNo = PNo + 1;
     
     
     
- }
+//  }
 
  //REMOVE A PAGE
- function removePage(){
+ // function removePage(){
 
     
-        $( ".content" ).last().remove();
-        containers.pop();
-        if(orientation == 'P')
-        PNo = PNo -1;
-        else
-        LNo = LNo -1;
+ //        $( ".content" ).last().remove();
+ //        containers.pop();
+ //        if(orientation == 'P')
+ //        PNo = PNo -1;
+ //        else
+ //        LNo = LNo -1;
 
     
- }
+ // }
 
   //TESTING PRINT FUNCTIONALITY
     $('#printButton').click(function () {
@@ -368,86 +344,86 @@ function newPage(mode,container){
    
 
     //ADDING AND REMOVING NEW PAGES
-    function pageManagement(container){
+    // function pageManagement(container){
     
-    var position = (document.querySelector(container).offsetTop) + (document.querySelector(container).clientHeight);
-         var tmpheight;
-        // console.log("currentPagePosition is before  " +currentPagePosition )
+    // var position = (document.querySelector(container).offsetTop) + (document.querySelector(container).clientHeight);
+    //      var tmpheight;
+    //     // console.log("currentPagePosition is before  " +currentPagePosition )
          
-        if(orientation == 'L'){
-            tmpheight = pageHeight;
-            pageHeight = pageWidth;
-        }
+    //     if(orientation == 'L'){
+    //         tmpheight = pageHeight;
+    //         pageHeight = pageWidth;
+    //     }
 
-        var prevContainer =   Math.floor(startingPosition/pageHeight);
-             for(var n=0; n < containers.length; n++){
-      console.log(containers[n].id + " " + containers[n].value); 
-      } 
-        console.log('prevContainer ' + prevContainer);
-        var tmp = containers[prevContainer].value -1;
-        containers[prevContainer].value = tmp;
+    //     var prevContainer =   Math.floor(startingPosition/pageHeight);
+    //          for(var n=0; n < containers.length; n++){
+    //   console.log(containers[n].id + " " + containers[n].value); 
+    //   } 
+    //     console.log('prevContainer ' + prevContainer);
+    //     var tmp = containers[prevContainer].value -1;
+    //     containers[prevContainer].value = tmp;
 
-            switch(orientation){
-                case 'P' :
-                    if( position >= pageHeight * currentPagePosition){
-                        currentPagePosition= currentPagePosition+1;
-                        newPage('P',container);
-                         $('#containment').css('height', pageHeight * currentPagePosition);
-                        //makeDraggeble(container);
-                         $(container).draggable({ containment: '#containment'});
+    //         switch(orientation){
+    //             case 'P' :
+    //                 if( position >= pageHeight * currentPagePosition){
+    //                     currentPagePosition= currentPagePosition+1;
+    //                     newPage('P',container);
+    //                      $('#containment').css('height', pageHeight * currentPagePosition);
+    //                     //makeDraggeble(container);
+    //                      $(container).draggable({ containment: '#containment'});
                         
-                    }
+    //                 }
 
-                    // else if(position< pageHeight * (currentPagePosition-1)){
-                    //     currentPagePosition= currentPagePosition-1;
-                    //     if(removePage()){
-                    //     $('#containment').css('height', pageHeight * currentPagePosition);
-                    //     $(container).draggable({ containment: '#containment'});
-                    // }
-                    // }
-                    break;
-                case 'L':
-                    if( position >= pageHeight * currentPagePosition){
-                        currentPagePosition= currentPagePosition+1;
-                        newPage('L',container);
-                        $('#containment').css('height', pageHeight * currentPagePosition);
+    //                 // else if(position< pageHeight * (currentPagePosition-1)){
+    //                 //     currentPagePosition= currentPagePosition-1;
+    //                 //     if(removePage()){
+    //                 //     $('#containment').css('height', pageHeight * currentPagePosition);
+    //                 //     $(container).draggable({ containment: '#containment'});
+    //                 // }
+    //                 // }
+    //                 break;
+    //             case 'L':
+    //                 if( position >= pageHeight * currentPagePosition){
+    //                     currentPagePosition= currentPagePosition+1;
+    //                     newPage('L',container);
+    //                     $('#containment').css('height', pageHeight * currentPagePosition);
                         
-                        $(container).draggable({ containment: '#containment'});
-                    }
+    //                     $(container).draggable({ containment: '#containment'});
+    //                 }
 
-                    // else if(position < pageWidth * (currentPagePosition-1)){
-                    //     currentPagePosition= currentPagePosition-1;
-                    //     if(removePage()){
-                    //     $('#containment').css('height', pageWidth * currentPagePosition);
-                    //     $(container).draggable({ containment: '#containment'});
-                    // }
-                    // }
-                    break;
+    //                 // else if(position < pageWidth * (currentPagePosition-1)){
+    //                 //     currentPagePosition= currentPagePosition-1;
+    //                 //     if(removePage()){
+    //                 //     $('#containment').css('height', pageWidth * currentPagePosition);
+    //                 //     $(container).draggable({ containment: '#containment'});
+    //                 // }
+    //                 // }
+    //                 break;
 
 
-            }
+    //         }
             
-            var containerNumber = Math.floor(position/pageHeight);
-      //       console.log('**************' +containerNumber + ' COntainer number' + pageHeight * currentPagePosition + ' height')
+    //         var containerNumber = Math.floor(position/pageHeight);
+    //   //       console.log('**************' +containerNumber + ' COntainer number' + pageHeight * currentPagePosition + ' height')
        
 
-            var tmp2 = containers[containerNumber].value+1;
-            containers[containerNumber].value = tmp2;
+    //         var tmp2 = containers[containerNumber].value+1;
+    //         containers[containerNumber].value = tmp2;
             
-            if(containers[containers.length-1].value == 0 ){
-                        currentPagePosition= currentPagePosition-1;
-                        (removePage())
-                        $('#containment').css('height', pageHeight * currentPagePosition);
-                        $(container).draggable({ containment: '#containment'});
+    //         if(containers[containers.length-1].value == 0 ){
+    //                     currentPagePosition= currentPagePosition-1;
+    //                     (removePage())
+    //                     $('#containment').css('height', pageHeight * currentPagePosition);
+    //                     $(container).draggable({ containment: '#containment'});
             
-        }
+    //     }
 
-        if(orientation == 'L'){
-            pageHeight = tmpheight;
-        }
-        //console.log("LNO is " +LNo )
+    //     if(orientation == 'L'){
+    //         pageHeight = tmpheight;
+    //     }
+    //     //console.log("LNO is " +LNo )
 
-    }       
+    // }       
 
 //****************************************Highcharts Functions*************************************************
 
@@ -563,7 +539,7 @@ function highChartsResize(container){
         },
         stop: function() {
 
-            pageManagement(container);
+            //pageManagement(container);
           
         }
     })

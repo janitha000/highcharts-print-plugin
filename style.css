@@ -36,11 +36,12 @@ html{
 @media print {
   
 
+  
+  .content{
+    border: solid;
+  }
   #controls{
     display: none;
-  },
-  .content{
-    border: none !important ;
   }
   
 }

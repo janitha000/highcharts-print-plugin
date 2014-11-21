@@ -1,0 +1,52 @@
+<html>
+	<head>
+		<script language="javascript" src="printerTemplates.js"></script>
+		<script language="javascript">
+			//TODO: CHANGE THE PATH TO THE printerTemplateTemplate.html file. Nothing will happen unless you have the correct path!!!
+			//ALSO CHANGE THE NAME OF THE DEFAULT PRINTER TO SET
+			PrintTemplateLocation="./printerTemplateTemplate.html";
+			strPrinter="ContractPrinter";
+			function PrintContent(strContentToPrint){
+				templatePrinters= new templatePrinter()
+
+				templatePrinters.htmlContent=strContentToPrint
+				templatePrinters.printer=strPrinter
+				templatePrinters.printUsingTemplate(PrintTemplateLocation)
+			}
+			function PreviewContent(strContentToPrint){
+
+				templatePrinters= new templatePrinter()
+				templatePrinters.margins.top=0.25;
+				templatePrinters.margins.bottom=0.25;
+				templatePrinters.margins.left=0.25;
+				templatePrinters.margins.right=0.25;
+				templatePrinters.orientation="landscape";
+				templatePrinters.htmlContent=strContentToPrint
+				templatePrinters.printer=strPrinter
+				templatePrinters.printPreviewUsingTemplate(PrintTemplateLocation)
+			}
+		</script>
+	</head>
+	<body>
+		<table>
+			<tr>
+				<td>
+					<input type="button" value="PRINT" onclick="PrintContent(document.getElementById('content').innerHTML)" />
+					<input type="button" onclick="PreviewContent(document.getElementById('content').innerHTML)" value="PREVIEW" />
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<div id="content">
+						<div style="height:11in;border:1px solid black;">
+							Inner Content
+						</div>
+						<div>
+							Second Page
+						</div>
+					</div>
+				</td>
+			</tr>
+		</table>
+	</body>
+</html>

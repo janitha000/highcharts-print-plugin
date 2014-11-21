@@ -7,28 +7,59 @@ html, body {
      
 }
 
-
+.noclose .ui-dialog-titlebar-close
+{
+    display:none;
+}
 
 .container{
+      max-width: 100%;
+      max-height: 100%;
 
 }
 
 #containment{
-  margin: 0;
-  width: 100%;
+  	margin-left: auto;
+  	margin-right: auto;
+	height: 100%;
+	width: 70% !important;
+
+
+}
+
+.charts{
+	width: 50%;
+	margin-left: auto;
+	margin-right: auto;
+
 }
 
 
 
 
-.content{
-  border: ridge;
+.container:hover{
+	background-color: #F8F8F8 ;
 }
+
+/*
+.container:active{
+	background-color: #0066FF;
+}
+*/
 
 .chartData{
   max-width: 100%;
   text-align: center;
+  display:inline-block;
+	width: 30%;
+	margin-left: auto;
+	margin-right: auto;
+	left: 35%;
+/*	width: 400px;*/
+
 }
+
+
 
 
 
@@ -40,30 +71,10 @@ html, body {
   }
 
 
-  
-}
 
-/*#container2{
-    max-height: 100%;
-    max-width: 100%;
-
-}*/
-
-
-
-
-/*****************************************************************************/
-/*#charts{
-    max-height: 100%;
-    max-width: 100%;
+  div{
+        page-break-inside: avoid;
+    }
 
 }
-
-#otherData{
-    max-height: 100%;
-    max-width: 100%;
-    min-height: 10px;
-    min-width: 10px;
-    overflow: hidden;
-}*/
 

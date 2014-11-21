@@ -1,0 +1,52 @@
+<html>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+
+	<body>
+
+
+	<table id = "table" border="1" style="width:100% ">
+		<tr>
+			<td>1</td>
+			<td>2</td>
+		</tr>
+			<td>3</td>
+			<td>4</td>
+		<tr>
+			<td>5</td>
+			<td>6</td>
+		</tr>
+
+		</table>
+		<br>
+		<br>
+
+		<button id="merge">Merge</button>
+		<button id = "add">Add</button>
+
+
+
+	</body>
+
+	<script>
+
+		$("#merge").click(function(){
+		 $("table").delegate("td", "click", function () {
+		 var colSp = 2;
+		 $(this).attr("colspan", colSp);
+
+		 var ptr = $(this).parent().children();
+		 for (var i = 1; i < colSp; i++) {
+			 ptr[ptr.length - i].parentNode.removeChild(ptr[ptr.length - i]);
+		 }
+	 });
+
+			});
+
+		$("#add").click(function(){
+
+		});
+
+
+	</script>
+
+</html>

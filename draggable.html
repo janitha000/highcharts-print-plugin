@@ -16,44 +16,47 @@
 <script src="./jquery.ui-contextmenu.min.js"></script>
 
 
+
 <body>
-        
-        <div id ="controls" style="float:left;  margin-left: 100px; margin-top: 10px; "> 
-        <button id="printButton" style ="height: 5em; width: 10em; " class="autocompare">Print Chart</button> 
+
+        <div id ="controls" style="float:right;  margin-right: 100px;">
+        <button id="printButton" style ="height: 5em; width: 10em; " class="autocompare">Print Chart</button>
 
         <div id="legend" style ="display: none;">
             <p>Legend
             <select id="alignment" name="align">
                 <option value="left">Left</option>
                 <option value="right">Right</option>
-                <option value="center">Center</option> 
+                <option value="center">Center</option>
             </select>
             <select id="Valignment" name="valign">
                 <option value="top">Top</option>
                 <option value="bottom">Bottom</option>
-                <option value="middle">Middle</option> 
+                <option value="middle">Middle</option>
             </select>
             <select id="layout" name="layout">
                 <option value="Vertical">Vertical</option>
                 <option value="horizontal">Horizontal</option>
-                
+
             </select>
-            <button id = "legendButton">Done</button></p>
+            <button id = "legendButton">Done</button>
+            <button id = "legendCancelButton">Cancel</button></p>
         </div>
 
         <div id ="subtitle" style ="display: none;">
-            <p>Subtitle</p>
+            <p>Subtitle
             <select id="Talignment" name="talign">
                 <option value="left">Left</option>
                 <option value="right">Right</option>
-                <option value="center">Center</option> 
+                <option value="center">Center</option>
             </select>
             <select id="VTalignment" name="vtalign">
                 <option value="top">Top</option>
                 <option value="bottom">Bottom</option>
-                <option value="middle">Middle</option> 
+                <option value="middle">Middle</option>
             </select>
             <button id ="subtitleButton">Done</button>
+            <button id ="subtitleCancelButton">Cancel</button></p>
         </div>
 
         <textarea class="FormElement" style ="display: none;"name="term" id="addData" cols="40" rows="4"></textarea><br>
@@ -62,29 +65,31 @@
 
     </div>
 
-    
-    <div id = "containment" style="float:left;  height: 100%; width: 100%; ">    
-         <div id="content1" style="float:left;  height: 100% ; width: 100%; "></div> 
-        
-    </div>
-   
+
+    <div id = "containment" style="float:left;  height: 100%; width: 100%; ">
+
+          <div id="content1" style="float:left;  height: 100% ; width: 100%; "></div>
+
+
+
+
 
 
 </div>
-    
- 
+
+
 
 </body>
 
 <script>
 
-
+$(document).ready(function() {
 $(function () {
-    
+
     //GLOBAL VARIABLES
- 
-    var noOfCharts = 5;             
-    
+
+    var noOfCharts = 11;
+
 
 
     initialization();
@@ -94,17 +99,22 @@ $(function () {
     function initialization(){
     for(var j=1; j<noOfCharts +1; j++){
 
-        $('#content1').append('<div id="container'+j+'"'+' class = "container" style="height: 400; width:400;position:relative" ></div>');
-       // pageManagement("#container" + j);
-        $("#container" + j ).append('<div id="containerChart'+j+'"'+' class="charts" style="height: 400; width:400;position:relative" ></div>');
-        initializeChart("#containerChart"+j );
+        $('#content1').append('<div id="container'+j+'"'+' class = "container" style="height: 500; width:500;position:relative" ></div>');
+
+        $("#container" + j ).append('<div id="containerChart'+j+'"'+' class="charts" style="height: 500; width:500;position:relative" ></div>');
+
         $("#container" + j ).append('<div id = "chartData'+j+'"'+' class = "chartData"><h1>dsfasfagsgssdf<h1></div>');
-        //initilizeArray("#container" + j );
-        makeDraggeble("#container" + j );
-        makeDraggeble("#chartData"+j);
-        createContextMenu("#containerChart"+j  );
-       } 
+        initializeChart("#containerChart"+j );
+        //$("#content1").sortable();
+         makeDraggeble("#container" + j );
+         makeDraggeble("#chartData"+j);
+         createContextMenu("#containerChart"+j  );
+
+         //resizeChart("#container" + j )
+       }
     }
+
+
 
     //APPEND OTHER CHART DATA
     function appendChartData(container){
@@ -112,16 +122,16 @@ $(function () {
     }
 
     //MAKE CONTROLS SCROLLABLE
-    // var scroll = 0;
-    // var marginTop = 10;
-    // $(document).ready(function(){  
-    //     $(window).scroll(function () {
-    //         marginTop = ($(document).scrollTop() - scroll) + marginTop;
-    //         scroll = $(document).scrollTop();
+    var scroll = 0;
+    var marginTop = 10;
+    $(document).ready(function(){
+        $(window).scroll(function () {
+            marginTop = ($(document).scrollTop() - scroll) + marginTop;
+            scroll = $(document).scrollTop();
 
-    //         $("#controls").animate({"marginTop": marginTop+"px"}, {duration:500,queue:false} );
-    //     });  
-    // });
+            $("#controls").animate({"marginTop": marginTop+"px"}, {duration:500,queue:false} );
+        });
+    });
 
 
     function makeheight(){
@@ -138,68 +148,65 @@ $(function () {
 
      }
 
-    
-     
-    
 
-    
+
+
+
+
 
     //MAKE CHARTS DRAGGEBLE
      function makeDraggeble(container){
-        $( container ).draggable({ containment: "#containment" , snap: ".content", start : function(){ getStartPoint(container); } ,stop: function() {
-            //pageManagement(container);
-          
-        } } );
-         
+        $( container ).draggable({ containment: "#content1"  } );
+
      }
-   
+
      //GET THE STARTING POSITION OF A CHART
      function getStartPoint(container){
         startingPosition = (document.querySelector(container).offsetTop) + (document.querySelector(container).clientHeight);
      }
-    
+
 
     //LANDSCAPE/PORTRAIT CHANGE
     // $("input[name='radiob']").change(function(){
     //     var value = $("input:radio[name=radiob]:checked").val();
-        
+
     //     if(value == 'Portrait'){
-            
+
     //             $( ".content" ).height(pageHeight);
     //             $( ".content" ).width(pageWidth);
     //             $( "#containment" ).height(pageHeight*currentPagePosition-1);
     //             $( "#containment" ).width(pageWidth);
-    //             orientation = 'P'; 
-    //              reinitiate(); 
+    //             orientation = 'P';
+    //              reinitiate();
     //              initialization();
 
     //         }
     //     else {
-            
+
     //             $( ".content" ).height(pageWidth);
     //             $( ".content" ).width(pageHeight);
     //             $( "#containment" ).height(pageWidth);
     //             $( "#containment" ).width(pageHeight);
     //             orientation = 'L';
-    //             reinitiate(); 
+    //             reinitiate();
     //             initialization();
-            
-            
-            
+
+
+
     //     }
     // });
 
 
 
-   
- 
- //RESIZE CHART      
+
+
+ //RESIZE CHART
  function resizeChart(container){
 
     highChartsResize(container);
 
-    
-    
+
+
 };
 
 //LEGEND CHANGE
@@ -213,6 +220,10 @@ function legend(container){
         modifyLegend();
         $('#legend').hide();
     });
+    $('#legendCancelButton').click(function(){
+
+        $('#legend').hide();
+    });
 
     function modifyLegend(){
         highchartLegend(container);
@@ -220,7 +231,7 @@ function legend(container){
     };
 
 //SUBTITLE CHANGE
-function subtitle(container){      
+function subtitle(container){
      // $( "#subtitle" ).dialog({
      //    buttons: { "Done" : modifySubtitle}
      // });
@@ -231,9 +242,14 @@ function subtitle(container){
         $('#subtitle').hide();
     });
 
+    $('#subtitleCancelButton').click(function(){
+
+        $('#subtitle').hide();
+    });
+
      function modifySubtitle(){
         highchartsSubtitle(container);
-         
+
      }
 }
 
@@ -250,7 +266,7 @@ $(container).contextmenu({
         {title: "----"},
         {title: "Subtitle", action : function() { subtitle(container); }},
         ]
-    
+
 });
 
 }
@@ -273,7 +289,7 @@ $(container).contextmenu({
 //                     });
 //         }
 //     PNo = PNo + 1;
-         
+
 //     }
 //     else {
 //         console.log("came " + container);
@@ -286,7 +302,7 @@ $(container).contextmenu({
 //     }
 //         LNo = LNo + 1;
 //     }
-   
+
 //     //$(container).draggable({ containment: '.content:last-child , .content'});
 //     // if(containers[containers.length-1].id != "content"+PNo)
 //     // containers.push({
@@ -294,15 +310,15 @@ $(container).contextmenu({
 //     //             value: 0
 //     //         });
 //     // PNo = PNo + 1;
-    
-    
-    
+
+
+
 //  }
 
  //REMOVE A PAGE
  // function removePage(){
 
-    
+
  //        $( ".content" ).last().remove();
  //        containers.pop();
  //        if(orientation == 'P')
@@ -310,46 +326,49 @@ $(container).contextmenu({
  //        else
  //        LNo = LNo -1;
 
-    
+
  // }
 
   //TESTING PRINT FUNCTIONALITY
     $('#printButton').click(function () {
-    for(var n=0; n < containers.length; n++){
-      console.log(containers[n].id + " " + containers[n].value); 
-      } 
-      
 
-    Popup($('.content').html());
-        
-        
-        function Popup(data) 
+
+
+    Popup($('#content1').html());
+
+
+        function Popup(data)
         {
-            console.log(data);
-            var mywindow = window.open('', 'my div', 'height=1000,width=1000');
-            mywindow.document.write('<html><head>');
-            mywindow.document.write('</head><body>');
-            mywindow.document.write(data);
-            mywindow.document.write('</body></html>');
+            // console.log(data);
+            // var mywindow = window.open('', 'my div', 'height=1000,width=1000');
+            // mywindow.document.write('<html><head>');
+            // mywindow.document.write('</head><body>');
+            // mywindow.document.write(data);
+            // mywindow.document.write('</body></html>');
 
-            mywindow.print();
+            // mywindow.print();
             //mywindow.close();
 
-            return true;
-            //window.print();
+            // return true;
+            // window.onbeforeprint = function(){
+            //     alert("hello")
+            // }
+            window.focus();
+             window.print();
+
         }
 
     });
 
-   
+
 
     //ADDING AND REMOVING NEW PAGES
     // function pageManagement(container){
-    
+
     // var position = (document.querySelector(container).offsetTop) + (document.querySelector(container).clientHeight);
     //      var tmpheight;
     //     // console.log("currentPagePosition is before  " +currentPagePosition )
-         
+
     //     if(orientation == 'L'){
     //         tmpheight = pageHeight;
     //         pageHeight = pageWidth;
@@ -357,8 +376,8 @@ $(container).contextmenu({
 
     //     var prevContainer =   Math.floor(startingPosition/pageHeight);
     //          for(var n=0; n < containers.length; n++){
-    //   console.log(containers[n].id + " " + containers[n].value); 
-    //   } 
+    //   console.log(containers[n].id + " " + containers[n].value);
+    //   }
     //     console.log('prevContainer ' + prevContainer);
     //     var tmp = containers[prevContainer].value -1;
     //     containers[prevContainer].value = tmp;
@@ -371,7 +390,7 @@ $(container).contextmenu({
     //                      $('#containment').css('height', pageHeight * currentPagePosition);
     //                     //makeDraggeble(container);
     //                      $(container).draggable({ containment: '#containment'});
-                        
+
     //                 }
 
     //                 // else if(position< pageHeight * (currentPagePosition-1)){
@@ -387,7 +406,7 @@ $(container).contextmenu({
     //                     currentPagePosition= currentPagePosition+1;
     //                     newPage('L',container);
     //                     $('#containment').css('height', pageHeight * currentPagePosition);
-                        
+
     //                     $(container).draggable({ containment: '#containment'});
     //                 }
 
@@ -402,20 +421,20 @@ $(container).contextmenu({
 
 
     //         }
-            
+
     //         var containerNumber = Math.floor(position/pageHeight);
     //   //       console.log('**************' +containerNumber + ' COntainer number' + pageHeight * currentPagePosition + ' height')
-       
+
 
     //         var tmp2 = containers[containerNumber].value+1;
     //         containers[containerNumber].value = tmp2;
-            
+
     //         if(containers[containers.length-1].value == 0 ){
     //                     currentPagePosition= currentPagePosition-1;
     //                     (removePage())
     //                     $('#containment').css('height', pageHeight * currentPagePosition);
     //                     $(container).draggable({ containment: '#containment'});
-            
+
     //     }
 
     //     if(orientation == 'L'){
@@ -423,20 +442,20 @@ $(container).contextmenu({
     //     }
     //     //console.log("LNO is " +LNo )
 
-    // }       
+    // }
 
 //****************************************Highcharts Functions*************************************************
 
  function createChart(container){
     $.getJSON( 'options.json', function( options ) {
     $(container).highcharts(options);
-    
+
     });
  }
 
 function initializeChart(container){
     console.log(container)
-    var oriChart = $(container).highcharts( 
+    var oriChart = $(container).highcharts(
         {
     //$('#container').highcharts({
 
@@ -480,7 +499,7 @@ function initializeChart(container){
                     this.x +': '+ this.y +'°C';
             }
         },
-        
+
         navigation: {
             buttonOptions: {
                 enabled: false
@@ -495,7 +514,7 @@ function initializeChart(container){
             loaded = true
         },
 
-        
+
         series: [{
             name: 'Tokyo',
             data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6]
@@ -509,38 +528,38 @@ function initializeChart(container){
             name: 'London',
             data: [3.9, 4.2, 5.7, 8.5, 11.9, 15.2, 17.0, 16.6, 14.2, 10.3, 6.6, 4.8]
         }]
-    
+
     }
     );
 }
 
 function highChartsResize(container){
     var chart = $(container).highcharts();
-    
+
     var first = $(container).resizable( "instance" );
         if(typeof first === "undefined"){
-        
+
         }
         else {
-            $(container).resizable("destroy"); 
+            $(container).resizable("destroy");
         }
 
         $(container).resizable({
-           
+
         resize: function() {
         chart.setSize(
-            this.offsetWidth - 20, 
+            this.offsetWidth - 20,
             this.offsetHeight - 20,
             false
         );
     },
-        start : function(){ 
-            getStartPoint(container); 
+        start : function(){
+            getStartPoint(container);
         },
         stop: function() {
 
             //pageManagement(container);
-          
+
         }
     })
 
@@ -554,21 +573,21 @@ function highchartLegend(container){
     var chart = $(container).highcharts();
 
     var options = {
-        
+
             legend: {
                 align: $("#alignment option:selected").val(),
                 verticalAlign: $("#Valignment option:selected").val(),
                 layout: $("#layout option:selected").val(),
-                
+
             }
         };
-        
+
         //Highcharts.setOptions(options);
         var chartOptions = chart.options;
         var newOptions = Highcharts.merge(chartOptions, options);
-        
+
         chart.destroy();
-        var chart1 = new Highcharts.Chart(newOptions); 
+        var chart1 = new Highcharts.Chart(newOptions);
 }
 
 function highchartsSubtitle(container){                           //BOTTOM FUNCTIONALITY
@@ -576,25 +595,26 @@ function highchartsSubtitle(container){                           //BOTTOM FUNCT
 
         var options = {
             subtitle: {
-                
+
                 align: $("#Talignment option:selected").val(),
                 verticalAlign: $("#VTalignment option:selected").val(),
                 x: -10
-                
-                
-                
+
+
+
             }
         }
        // Highcharts.setOptions(options);
         var chartOptions = chart.options;
         var newOptions = Highcharts.merge(chartOptions, options);
-        
+
         chart.destroy();
         var chart1 = new Highcharts.Chart(newOptions);
 }
 
 
 
+});
 });
 
 </script>

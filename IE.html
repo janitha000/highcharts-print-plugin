@@ -98,7 +98,7 @@ $(function () {
 
         $('#content1').append('<div id="container'+j+'"'+' class = "container" style="height: auto; width:auto;position:relative" ></div>');
         $("#container" + j ).append('<div id="containerChart'+j+'"'+' class="charts" style="height: 400; width:400;position:relative" ></div>');
-        $("#container" + j ).append('<div id = "chartData'+j+'"'+' class = "chartData" ><h5>Chart Data<br>This is a highchart. <h5></div>');
+        $("#container" + j ).append('<div id = "chartData'+j+'"'+' class = "chartData" ><h5>Chart Data.This is a highchart.sdf adsfas asdf afasdfa sasdfasdfas <h5></div>');
         initializeChart("#containerChart"+j );
         $("#content1").sortable({ revert: true });
          //makeDraggeble("#container" + j );
@@ -140,7 +140,7 @@ $(function () {
 
     //MAKE  DRAGGEBLE
      function makeDraggeble(container){
-        $( container ).draggable({ containment: "#content1"  } );
+        $( container ).draggable({ containment: "parent"  } );
 
      }
 
@@ -266,7 +266,9 @@ $(container).contextmenu({
             //     alert("hello")
             // }
             //window.focus();
+
              window.print();
+
 
         }
 

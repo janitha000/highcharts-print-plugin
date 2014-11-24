@@ -17,6 +17,7 @@ html, body {
 
 
 }
+/*
 
 #containment{
   	margin-left: auto;
@@ -26,11 +27,14 @@ html, body {
 
 
 }
+*/
 
 .charts{
-	width: 50%;
-/*	margin-left: auto;*/
-/*	margin-right: auto;*/
+/*	width: 50%;*/
+/*
+	margin-left: auto;
+	margin-right: auto;
+*/
 
 }
 
@@ -53,14 +57,14 @@ html, body {
 
 .chartData{
 /*  max-width: 100%;*/
-  text-align: center;
+  text-align: justify;
   display:inline-block;
-	width: 30%;
+	width: 200;
 	margin-left: auto;
 	margin-right: auto;
 	margin-top: auto;
 	margin-bottom: auto;
-/*	left: 35%;*/
+	left: 10%;
 /*	width: 400px;*/
 
 }
@@ -81,6 +85,7 @@ html, body {
   div{
         page-break-inside: avoid;
     }
+
 
 
 

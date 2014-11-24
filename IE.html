@@ -98,7 +98,7 @@ $(function () {
 
         $('#content1').append('<div id="container'+j+'"'+' class = "container" style="height: auto; width:auto;position:relative" ></div>');
         $("#container" + j ).append('<div id="containerChart'+j+'"'+' class="charts" style="height: 400; width:400;position:relative" ></div>');
-        $("#container" + j ).append('<div id = "chartData'+j+'"'+' class = "chartData" ></div>');
+        $("#container" + j ).append('<div id = "chartData'+j+'"'+' class = "chartData" style="top : -365; left: 478;"></div>');
         initializeChart("#containerChart"+j );
 		appendChartData("#chartData"+j);
         $("#content1").sortable({ revert: true });

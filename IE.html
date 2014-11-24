@@ -104,8 +104,8 @@ $(function () {
         $("#content1").sortable({ revert: true });
          //makeDraggeble("#container" + j );
          makeDraggeble("#chartData"+j);
-         createContextMenu("#containerChart"+j  );
-		 createBackgroundContextMenu("#container"+j);
+         createContextMenu("#containerChart"+j ,"#container"+j );
+
 
 
        }
@@ -193,12 +193,12 @@ function subtitle(container){
 
 
 //CONTEXT MENU
-function createContextMenu(container){
+function createContextMenu(container,parentContainer){
 
-$(container).contextmenu({
+$(parentContainer).contextmenu({
     //delegate: ".hasmenu",
     menu: [
-        {title: "Resize", action : function() { resizeChart(container); }},
+        {title: "Resize", action : function() { resizeChart(container); BackgroundContextMenu(parentContainer) }},
         {title: "----"},
         {title: "Legend", action : function() {
 			$("#legend").dialog( {
@@ -237,10 +237,8 @@ $(container).contextmenu({
 
 }
 
-		function createBackgroundContextMenu(container){
-			$(container).contextmenu({
-				menu: [
-        			{title: "Resize", action : function() {
+		function BackgroundContextMenu(container){
+
 						var first = $(container).resizable( "instance" );
         				if(typeof first === "undefined"){
 
@@ -260,8 +258,8 @@ $(container).contextmenu({
 
 
 
-    				}}]
-			});
+
+
 		};
 
 

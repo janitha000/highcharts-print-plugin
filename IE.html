@@ -20,7 +20,7 @@
 
 <body>
 
-        <div id ="controls" style="float:left;  margin-left: 100px; margin-top: 10px; ">
+        <div id ="controls" style="  margin-left: 100px; margin-top: 10px; ">
         <button id="printButton" style ="height: 5em; width: 10em; " class="autocompare">Print Chart</button>
 
         <div id="legend" style ="display: none;">
@@ -69,10 +69,10 @@
     </div>
 
 
-    <div id = "containment" >
+<!--    <div id = "containment" >-->
 
-          <div id="content1" style="float:left;  height: 100% ; width: 100%; "></div>
-     </div>
+          <div id="content1" style="height: 100% ; width: 90%; "></div>
+<!--     </div>-->
 
 
 
@@ -89,7 +89,7 @@ $(function () {
 
 
     initialization();
-    makeheight();
+    //makeheight();
 
 
     //INITIALIZE AND CREATE CHARTS
@@ -98,12 +98,14 @@ $(function () {
 
         $('#content1').append('<div id="container'+j+'"'+' class = "container" style="height: auto; width:auto;position:relative" ></div>');
         $("#container" + j ).append('<div id="containerChart'+j+'"'+' class="charts" style="height: 400; width:400;position:relative" ></div>');
-        $("#container" + j ).append('<div id = "chartData'+j+'"'+' class = "chartData" ><h5>Chart Data.This is a highchart.sdf adsfas asdf afasdfa sasdfasdfas <h5></div>');
+        $("#container" + j ).append('<div id = "chartData'+j+'"'+' class = "chartData" ></div>');
         initializeChart("#containerChart"+j );
+		appendChartData("#chartData"+j);
         $("#content1").sortable({ revert: true });
          //makeDraggeble("#container" + j );
          makeDraggeble("#chartData"+j);
          createContextMenu("#containerChart"+j  );
+		 createBackgroundContextMenu("#container"+j);
 
 
        }
@@ -113,7 +115,8 @@ $(function () {
 
     //APPEND OTHER CHART DATA
     function appendChartData(container){
-        $(container).append();
+
+        $(container).append("<h5>Chart Data.Highcharts is a charting library written in pure JavaScript, offering an easy way of adding interactive charts to your web site or web application. <h5>");
     }
 
 
@@ -234,6 +237,34 @@ $(container).contextmenu({
 
 }
 
+		function createBackgroundContextMenu(container){
+			$(container).contextmenu({
+				menu: [
+        			{title: "Resize", action : function() {
+						var first = $(container).resizable( "instance" );
+        				if(typeof first === "undefined"){
+
+        				}
+        				else {
+            				$(container).resizable("enable");
+        				}
+						$(container).resizable({
+        					handles: 'n, s' ,
+							stop: function( event, ui ) {
+							$(container).resizable('disable');
+							}
+
+
+
+		 				});
+
+
+
+    				}}]
+			});
+		};
+
+
 //ADD OHTER DATA
  $("#add").click(function() {
         var data = $("#addData").val();
@@ -340,6 +371,10 @@ function initializeChart(container){
                 enabled: false
             }
         },
+
+		credits: {
+			enabled : false
+		},
 
         exporting: {
             url: 'http://export.highcharts.com/'

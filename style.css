@@ -17,17 +17,15 @@ html, body {
 
 
 }
-/*
-
-#containment{
-  	margin-left: auto;
-  	margin-right: auto;
-	height: 100%;
-	width: 70% !important;
 
 
+#printButton{
+	height: 5em;
+	width: 50%;
+	margin-right: auto;
+	margin-left: auto;
+	display: block;
 }
-*/
 
 .charts{
 /*	width: 50%;*/

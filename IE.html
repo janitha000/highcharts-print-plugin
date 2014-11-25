@@ -20,8 +20,8 @@
 
 <body>
 
-        <div id ="controls" style="  margin-left: 100px; margin-top: 10px; ">
-        <button id="printButton" style ="height: 5em; width: 10em; " class="autocompare">Print Chart</button>
+        <div id ="controls" style=" margin-top: 10px; margin-bottom: 10px;">
+        <button id="printButton"  class="autocompare btn btn-default">Print Chart</button>
 
         <div id="legend" style ="display: none;">
 
@@ -272,36 +272,10 @@ $(parentContainer).contextmenu({
 
   //TESTING PRINT FUNCTIONALITY
     $('#printButton').click(function () {
+			window.print();
+		}
 
-
-
-    Popup($('#content1').html());
-
-
-        function Popup(data)
-        {
-            // console.log(data);
-            // var mywindow = window.open('', 'my div', 'height=1000,width=1000');
-            // mywindow.document.write('<html><head>');
-            // mywindow.document.write('</head><body>');
-            // mywindow.document.write(data);
-            // mywindow.document.write('</body></html>');
-
-            // mywindow.print();
-            //mywindow.close();
-
-            // return true;
-            // window.onbeforeprint = function(){
-            //     alert("hello")
-            // }
-            //window.focus();
-
-             window.print();
-
-
-        }
-
-    });
+    );
 
 
 

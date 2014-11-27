@@ -89,7 +89,7 @@ $(function () {
 
     //GLOBAL VARIABLES
 
-    var noOfCharts = 11;
+    var noOfCharts = 5;
 
 
 
@@ -123,16 +123,16 @@ $(function () {
     }
 
     //MAKE CONTROLS SCROLLABLE
-    var scroll = 0;
-    var marginTop = 10;
-    $(document).ready(function(){
-        $(window).scroll(function () {
-            marginTop = ($(document).scrollTop() - scroll) + marginTop;
-            scroll = $(document).scrollTop();
-
-            $("#controls").animate({"marginTop": marginTop+"px"}, {duration:500,queue:false} );
-        });
-    });
+//    var scroll = 0;
+//    var marginTop = 10;
+//    $(document).ready(function(){
+//        $(window).scroll(function () {
+//            marginTop = ($(document).scrollTop() - scroll) + marginTop;
+//            scroll = $(document).scrollTop();
+//
+//            $("#controls").animate({"marginTop": marginTop+"px"}, {duration:500,queue:false} );
+//        });
+//    });
 
 
     function makeheight(){

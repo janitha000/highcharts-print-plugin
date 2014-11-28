@@ -21,7 +21,7 @@
 <body>
 
         <div id ="controls" style=" margin-top: 10px; margin-bottom: 10px;">
-        <button id="printButton"  class="autocompare btn btn-default">Print Chart</button>
+        <button id="printButton"  class="autocompare btn btn-default">Print</button>
 
         <div id="legend" style ="display: none;">
 
@@ -96,12 +96,12 @@ $(function () {
     function initialization(){
     for(var j=1; j<noOfCharts +1; j++){
 
-        $('#content1').append('<div id="container'+j+'"'+' class = "container" style="height: auto; width:auto;position:relative" ></div>');
+        $('#content1').append('<div id="container'+j+'"'+' class = "ChartContainer" style="height: auto !important; width:auto !important;position:relative" ></div>');
         $("#container" + j ).append('<div id="containerChart'+j+'"'+' class="charts" style="height: 400; width:400;position:relative" ></div>');
         $("#container" + j ).append('<div id = "chartData'+j+'"'+' class = "chartData" style="top : -365; left: 478;"></div>');
         initializeChart("#containerChart"+j );
 		appendChartData("#chartData"+j);
-        $("#content1").sortable({ revert: true });
+        $("#content1").sortable({revert : true});
          //makeDraggeble("#container" + j );
          makeDraggeble("#chartData"+j);
          createContextMenu("#containerChart"+j ,"#container"+j );
@@ -215,22 +215,22 @@ $(parentContainer).contextmenu({
 				});
 			}
 		},
-        {title: "----"},
-        {title: "Subtitle", action : function() {
-			$("#subtitle").dialog( {
-				title : "Subtitle",
-				resizable: false,
-				dialogClass: "noclose",
-		 		focus: function( event, ui ) {
-					subtitle(container);
-
-				},
-				buttons:[ { text: "Close" , click : function() {
-				$(this).dialog("close");
-			}}]
-				});
-		}
-		},
+//        {title: "----"},
+//        {title: "Subtitle", action : function() {
+//			$("#subtitle").dialog( {
+//				title : "Subtitle",
+//				resizable: false,
+//				dialogClass: "noclose",
+//		 		focus: function( event, ui ) {
+//					subtitle(container);
+//
+//				},
+//				buttons:[ { text: "Close" , click : function() {
+//				$(this).dialog("close");
+//			}}]
+//				});
+//		}
+//		},
         ]
 
 });
@@ -304,7 +304,7 @@ function initializeChart(container){
 			backgroundColor:'rgba(255, 255, 255, 0.1)'
         },
         title: {
-            text: 'Facilit Highchart'
+            text: 'Tilstandsgrad'
         },
         xAxis: {
             categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
@@ -326,11 +326,11 @@ function initializeChart(container){
                 zIndex: 6
             }
         },
-        subtitle: {
-            text: 'This is the subtitle',
-            align: 'center',
-            x: -10
-        },
+//        subtitle: {
+//            text: 'This is the subtitle',
+//            align: 'center',
+//            x: -10
+//        },
         tooltip: {
             formatter: function() {
                 return '<b>'+ this.series.name +'</b><br/>'+
@@ -432,8 +432,8 @@ function highchartsSubtitle(container){                           //BOTTOM FUNCT
             subtitle: {
 
                 align: $("#Talignment option:selected").val(),
-                verticalAlign: $("#VTalignment option:selected").val(),
-                x: -10
+                verticalAlign: $("#VTalignment option:selected").val()
+
 
 
 

@@ -12,7 +12,7 @@ html, body {
     display:none;
 }
 
-.container{
+.ChartContainer{
       max-width: 100%;
 
 
@@ -43,7 +43,7 @@ html, body {
 }
 
 
-.container:hover{
+.ChartContainer:hover{
 	background-color: #F8F8F8 ;
 }
 

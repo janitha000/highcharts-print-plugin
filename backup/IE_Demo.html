@@ -84,7 +84,7 @@ $(document).ready(function() {
 $(function () {
 
     //GLOBAL VARIABLES
-    var noOfCharts = 5;
+    var noOfCharts = 4;
 
 
 
@@ -96,17 +96,15 @@ $(function () {
     function initialization(){
     for(var j=1; j<noOfCharts +1; j++){
 
-        $('#content1').append('<div id="container'+j+'"'+' class = "ChartContainer" style="height: auto !important; width:auto !important;position:relative" ></div>');
+        $('#content1').append('<div id="container'+j+'"'+' class = "ChartContainer" style="height: auto; width:auto;position:relative" ></div>');
         $("#container" + j ).append('<div id="containerChart'+j+'"'+' class="charts" style="height: 400; width:400;position:relative" ></div>');
         $("#container" + j ).append('<div id = "chartData'+j+'"'+' class = "chartData" style="top : -365; left: 478;"></div>');
         initializeChart("#containerChart"+j );
 		appendChartData("#chartData"+j);
-        $("#content1").sortable({revert : true});
+        $("#content1").sortable({ revert: true });
          //makeDraggeble("#container" + j );
-		createContextMenu("#containerChart"+j ,"#container"+j);
          makeDraggeble("#chartData"+j);
-		
-         
+         createContextMenu("#containerChart"+j ,"#container"+j );
 
 
 
@@ -118,7 +116,7 @@ $(function () {
     //APPEND OTHER CHART DATA
     function appendChartData(container){
 
-        $(container).append("<h5>Chart Data.Highcharts is a charting library written in pure JavaScript <h5>");
+        $(container).append("<h5>Chart Data.Highcharts is a charting library written in pure JavaScript, offering an easy way of adding interactive charts to your web site or web application. <h5>");
     }
 
 
@@ -200,7 +198,7 @@ function createContextMenu(container,parentContainer){
 $(parentContainer).contextmenu({
     //delegate: ".hasmenu",
     menu: [
-        {title: "Resize", action : function() { BackgroundContextMenu(parentContainer); resizeChart(container);  }},
+        {title: "Resize", action : function() { resizeChart(container); BackgroundContextMenu(parentContainer) }},
         {title: "----"},
         {title: "Legend", action : function() {
 			$("#legend").dialog( {
@@ -217,31 +215,28 @@ $(parentContainer).contextmenu({
 				});
 			}
 		},
-//        {title: "----"},
-//        {title: "Subtitle", action : function() {
-//			$("#subtitle").dialog( {
-//				title : "Subtitle",
-//				resizable: false,
-//				dialogClass: "noclose",
-//		 		focus: function( event, ui ) {
-//					subtitle(container);
-//
-//				},
-//				buttons:[ { text: "Close" , click : function() {
-//				$(this).dialog("close");
-//			}}]
-//				});
-//		}
-//		},
+        {title: "----"},
+        {title: "Subtitle", action : function() {
+			$("#subtitle").dialog( {
+				title : "Subtitle",
+				resizable: false,
+				dialogClass: "noclose",
+		 		focus: function( event, ui ) {
+					subtitle(container);
+
+				},
+				buttons:[ { text: "Close" , click : function() {
+				$(this).dialog("close");
+			}}]
+				});
+		}
+		},
         ]
 
 });
 
 }
 
-		
-		
-		
 		function BackgroundContextMenu(container){
 
 						var first = $(container).resizable( "instance" );
@@ -309,7 +304,7 @@ function initializeChart(container){
 			backgroundColor:'rgba(255, 255, 255, 0.1)'
         },
         title: {
-            text: 'Tilstandsgrad'
+            text: 'Highcharts Draggable Legend Demo'
         },
         xAxis: {
             categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
@@ -331,11 +326,11 @@ function initializeChart(container){
                 zIndex: 6
             }
         },
-//        subtitle: {
-//            text: 'This is the subtitle',
-//            align: 'center',
-//            x: -10
-//        },
+        subtitle: {
+            text: 'This is a test subtitle',
+            align: 'center',
+            x: -10
+        },
         tooltip: {
             formatter: function() {
                 return '<b>'+ this.series.name +'</b><br/>'+
@@ -437,8 +432,8 @@ function highchartsSubtitle(container){                           //BOTTOM FUNCT
             subtitle: {
 
                 align: $("#Talignment option:selected").val(),
-                verticalAlign: $("#VTalignment option:selected").val()
-
+                verticalAlign: $("#VTalignment option:selected").val(),
+                x: -10
 
 
 

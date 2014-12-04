@@ -1,0 +1,416 @@
+<html>
+<head>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+    <script src="http://code.highcharts.com/highcharts.js"></script>
+    <script src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+    <script src="./jquery.ui.position.js"></script>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css">
+    <link rel="stylesheet" type="text/css" href="./style.css">
+    <link href="http://code.jquery.com/ui/1.11.2/themes/black-tie/jquery-ui.css" type="text/css" rel="stylesheet" />
+    <script src="./jquery.ui-contextmenu.min.js"></script>
+</head>
+<body>
+    <div id="controls" style=" margin-top: 10px; margin-bottom: 10px;">
+        <button id="printButton" class="autocompare btn btn-default">Print</button>
+        <div id="legend" style="display: none;">
+            <label for="alignment">Alignment: </label>
+            <select id="alignment" name="align">
+                <option id='1' value="left">Left</option>
+                <option value="right">Right</option>
+                <option value="center">Center</option>
+            </select><br>
+            <label for="Valignment">Vertical Alignment: </label>
+            <select id="Valignment" name="valign">
+                <option value="top">Top</option>
+                <option value="bottom">Bottom</option>
+                <option value="middle">Middle</option>
+            </select><br>
+            <label for="layout">Layout: </label>
+            <select id="layout" name="layout">
+                <option value="Vertical">Vertical</option>
+                <option value="horizontal">Horizontal</option>
+            </select>
+        </div>
+        <div id="addData" style="display: none;">
+            <label for="Data">Alignment: </label>
+            <textarea name="Data" id="Data" cols="25" rows="5">	</textarea>
+        </div>
+    </div>
+
+    <!--    <div id = "containment" >-->
+    <div id="content1" style="height: 100% ; width: 90%; "></div>
+    <!--     </div>-->
+
+    <script>
+
+        $(document).ready(function () {
+            $(function () {
+
+                //GLOBAL VARIABLES
+                var noOfCharts = 4;
+
+                initialization();
+                //makeheight();
+
+                //INITIALIZE AND CREATE CHARTS
+                function initialization() {
+                    for (var j = 1; j < noOfCharts + 1; j++) {
+
+                        $('#content1').append('<div id="container' + j + '"' + ' class = "ChartContainer" style="height: auto; width:auto;position:relative" ></div>');
+                        $("#container" + j).append('<div id="containerChart' + j + '"' + ' class="charts" style="height: 400; width:400;position:relative" ></div>');
+                        $("#container" + j).append('<div id = "chartData' + j + '"' + ' class = "chartData" style="top : -365; left: 478;"></div>');
+                        initializeChart("#containerChart" + j);
+                        appendChartData("#chartData" + j);
+                        $("#content1").sortable({ revert: true });
+                        //makeDraggeble("#container" + j );
+                        makeDraggeble("#chartData" + j);
+                        createContextMenu("#containerChart" + j, "#container" + j, "#chartDara" + j);
+                        $("#chartData" + j).resizable({
+
+                        });
+                    }
+                }
+
+                //APPEND OTHER CHART DATA
+                function appendChartData(container) {
+
+                    $(container).append("<h5>Chart Data. Highcharts is a charting library written in pure JavaScript<h5>");
+                }
+
+                function makeheight() {
+                    var winWidth = $(document).width();
+                    var winHeight = $(document).height();
+                    console.log(winWidth + " " + winHeight);
+                    // set initial div height / width
+                    $('#containment').css({
+
+                        'width': winWidth,
+                        'height': winHeight,
+
+                    });
+
+                }
+
+                function drawBorder(container) {
+
+                    $(container).css('border', '1px solid #98bf21');
+
+                }
+
+                function removeBorder(container) {
+                    $(container).css('border', 'none')
+                }
+
+                //MAKE  DRAGGEBLE
+                function makeDraggeble(container) {
+                    $(container).draggable({ containment: "parent" });
+
+                }
+
+                //RESIZE CHART
+                function resizeChart(container) {
+
+                    highChartsResize(container);
+
+                };
+
+                //LEGEND CHANGE
+                function legend(container) {
+
+                    $('#legend').show();
+                    $('#legend').change(function () {
+                        modifyLegend();
+
+                    });
+
+                    function modifyLegend() {
+                        highchartLegend(container);
+                    }
+                };
+
+                //SUBTITLE CHANGE
+                function subtitle(container) {
+
+                    $('#subtitle').change(function () {
+
+                        modifySubtitle();
+
+                    });
+
+                    function modifySubtitle() {
+                        highchartsSubtitle(container);
+
+                    }
+                }
+
+                //CONTEXT MENU
+                function createContextMenu(container, parentContainer, chartContainer) {
+
+                    $(parentContainer).contextmenu({
+                        //delegate: ".hasmenu",
+                        menu: [
+                            { title: "Resize", action: function () { chartdataResize(chartContainer); resizeChart(container); BackgroundContextMenu(parentContainer); } },
+                            { title: "----" },
+                            {
+                                title: "Legend", action: function () {
+                                    $("#legend").dialog({
+                                        title: "Legend",
+                                        resizable: false,
+                                        dialogClass: "noclose",
+                                        focus: function (event, ui) {
+                                            legend(container);
+                                        },
+                                        buttons: [{
+                                            text: "Close", click: function () {
+                                                $(this).dialog("close");
+                                            }
+                                        }]
+                                    });
+                                }
+                            },
+                             { title: "----" },
+                             {
+                                 title: "Add data", action: function () {
+                                     $("#addData").dialog({
+                                         title: "Add Data",
+                                         resizable: false,
+                                         dialogClass: "noclose",
+                                         focus: function (event, ui) {
+                                             subtitle(container);
+
+                                         },
+                                         buttons: [{
+                                             text: "Add", click: function () {
+                                                 addData(parentContainer);
+                                                 $(this).dialog("close");
+                                             }
+                                         }]
+                                     });
+                                 }
+                             },
+                        ]
+
+                    });
+
+                }
+
+                function chartdataResize(container) {
+
+                    var first = $(container).resizable("instance");
+                    if (typeof first === "undefined") {
+
+                    }
+                    else {
+                        $(container).resizable("enable");
+
+                    }
+
+                    $(container).resizable();
+
+                }
+
+                function BackgroundContextMenu(container) {
+
+                    var first = $(container).resizable("instance");
+                    if (typeof first === "undefined") {
+
+                    }
+                    else {
+                        $(container).resizable("enable");
+                    }
+                    $(container).resizable({
+                        handles: 'n, s',
+                        stop: function (event, ui) {
+                            $(container).resizable('disable');
+                        }
+
+                    });
+
+                };
+
+                //ADD OHTER DATA
+                function addData(container) {
+                    var data = $("#Data").val();
+
+                    $(container).append("<div class='additionalData'>" + data + "</div>");
+                    $(".additionalData").draggable().resizable({
+                        start: function () {
+
+                            drawBorder(".additionalData");
+                        },
+
+                        stop: function () {
+                            removeBorder(".additionalData");
+                        }
+                    });
+                }
+
+                //TESTING PRINT FUNCTIONALITY
+                $('#printButton').click(function () {
+                    window.print();
+                }
+
+                );
+
+                //****************************************Highcharts Functions*************************************************
+
+                function createChart(container) {
+                    $.getJSON('options.json', function (options) {
+                        $(container).highcharts(options);
+
+                    });
+                }
+
+                function initializeChart(container) {
+                    console.log(container)
+                    var oriChart = $(container).highcharts(
+                        {
+                            //$('#container').highcharts({
+
+                            chart: {
+                                renderTo: 'container',
+                                type: 'line',
+                                width: 400,
+                                height: 400,
+                                backgroundColor: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            title: {
+                                text: 'Highcharts Chart'
+                            },
+                            xAxis: {
+                                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                                             'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                                labels: {
+                                    zIndex: 6
+                                }
+                            },
+                            yAxis: {
+                                title: {
+                                    text: 'Temperature (°C)'
+                                },
+                                plotLines: [{
+                                    value: 0,
+                                    width: 1,
+                                    color: '#808080'
+                                }],
+                                labels: {
+                                    zIndex: 6
+                                }
+                            },
+
+                            tooltip: {
+                                formatter: function () {
+                                    return '<b>' + this.series.name + '</b><br />' +
+                                        this.x + ': ' + this.y + '°C';
+                                }
+                            },
+
+                            navigation: {
+                                buttonOptions: {
+                                    enabled: false
+                                }
+                            },
+
+                            credits: {
+                                enabled: false
+                            },
+
+                            exporting: {
+                                url: 'http://export.highcharts.com/'
+                            },
+
+                            load: function () {
+                                loaded = true
+                            },
+
+                            series: [{
+                                name: 'Tokyo',
+                                data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6]
+                            }, {
+                                name: 'New York',
+                                data: [-0.2, 0.8, 5.7, 11.3, 17.0, 22.0, 24.8, 24.1, 20.1, 14.1, 8.6, 2.5]
+                            }, {
+                                name: 'Berlin',
+                                data: [-0.9, 0.6, 3.5, 8.4, 13.5, 17.0, 18.6, 17.9, 14.3, 9.0, 3.9, 1.0]
+                            }, {
+                                name: 'London',
+                                data: [3.9, 4.2, 5.7, 8.5, 11.9, 15.2, 17.0, 16.6, 14.2, 10.3, 6.6, 4.8]
+                            }]
+
+                        }
+                    );
+                }
+
+                function highChartsResize(container) {
+                    var chart = $(container).highcharts();
+
+                    var first = $(container).resizable("instance");
+                    if (typeof first === "undefined") {
+
+                    }
+                    else {
+                        $(container).resizable("destroy");
+                    }
+
+                    $(container).resizable({
+
+                        resize: function () {
+                            chart.setSize(
+                                this.offsetWidth - 20,
+                                this.offsetHeight - 20,
+                                false
+                            );
+                        },
+
+                    })
+
+                }
+
+                function highchartLegend(container) {
+                    var chart = $(container).highcharts();
+
+                    var options = {
+
+                        legend: {
+                            align: $("#alignment option:selected").val(),
+                            verticalAlign: $("#Valignment option:selected").val(),
+                            layout: $("#layout option:selected").val(),
+
+                        }
+                    };
+
+                    //Highcharts.setOptions(options);
+                    var chartOptions = chart.options;
+                    var newOptions = Highcharts.merge(chartOptions, options);
+
+                    chart.destroy();
+                    var chart1 = new Highcharts.Chart(newOptions);
+                }
+
+                function highchartsSubtitle(container) {                           //BOTTOM FUNCTIONALITY
+                    var chart = $(container).highcharts();
+
+                    var options = {
+                        subtitle: {
+
+                            align: $("#Talignment option:selected").val(),
+                            verticalAlign: $("#VTalignment option:selected").val(),
+                            x: -10
+
+                        }
+                    }
+                    // Highcharts.setOptions(options);
+                    var chartOptions = chart.options;
+                    var newOptions = Highcharts.merge(chartOptions, options);
+
+                    chart.destroy();
+                    var chart1 = new Highcharts.Chart(newOptions);
+                }
+
+            });
+        });
+    </script>
+</body>
+</html>
